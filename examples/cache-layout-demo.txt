@@ -1,4 +1,21 @@
-## uv 0.13.0: install into a venv
+## uv 0.13.0: install into a venv (what uv prints)
+ + litellm==1.107.0
+
+## pip 23.0.1: install into a throwaway venv (lines that name litellm)
+Collecting litellm==1.107.0
+  Downloading https://127.0.0.1:PORT/litellm-1.107.0-py3-none-any.whl (1.7 kB)
+Installing collected packages: litellm
+Successfully installed litellm-1.107.0
+
+## pip 26.2.2: install into a throwaway venv (lines that name litellm)
+Collecting litellm==1.107.0
+  Downloading litellm-1.107.0-py3-none-any.whl (1.7 kB)
+Installing collected packages: litellm
+Successfully installed litellm-1.107.0
+
+## sha256: the wheel, and pip 26's http-v2 body
+1ff7a92c69b64dc5802657802b6b8c38aed8e9b90746d1cf39bd35564f8dd760
+1ff7a92c69b64dc5802657802b6b8c38aed8e9b90746d1cf39bd35564f8dd760
 
 $ python3 -I -S ioc_check.py env venv-uv
 HIT        installed        venv-uv/lib/python3.11/site-packages/litellm-1.107.0.dist-info
@@ -15,15 +32,15 @@ INFO       searched         venv-uv
 INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
 
 $ python3 -I -S ioc_check.py scan uvcache
-HIT        cache-index      uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any.rev
+HIT        cache-index      uvcache/wheels-v7/index/cf81c3ff8170731b/litellm/1.107.0-py3-none-any.rev
                            uv cache entry for litellm 1.107.0
-HIT        cache-index      uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any.lock
+HIT        cache-index      uvcache/wheels-v7/index/cf81c3ff8170731b/litellm/1.107.0-py3-none-any.lock
                            uv cache entry for litellm 1.107.0
-HIT        cache-index      uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any
+HIT        cache-index      uvcache/wheels-v7/index/cf81c3ff8170731b/litellm/1.107.0-py3-none-any
                            uv cache entry for litellm 1.107.0
-HIT        unpacked         uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.data
+HIT        unpacked         uvcache/archive-v0/aG0iyrrhOmiiqKAU/litellm-1.107.0.data
                            unpacked litellm 1.107.0 wheel (uv archive or similar)
-HIT        unpacked         uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.dist-info
+HIT        unpacked         uvcache/archive-v0/aG0iyrrhOmiiqKAU/litellm-1.107.0.dist-info
                            unpacked litellm 1.107.0 wheel (uv archive or similar)
 INFO       searched         uvcache
                            scanned
@@ -31,7 +48,7 @@ INFO       searched         uvcache
 INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
 
 $ python3 -I -S ioc_check.py scan pipcache-23.0.1
-HIT        cache-entry      pipcache-23.0.1/http/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed
+HIT        cache-entry      pipcache-23.0.1/http/e/d/f/9/8/edf98d7dbdca44887b739c2b326ddcc9c6745ca9e7fda029576b6794
                            contains the member name litellm-1.107.0.data/purelib/cook
 INFO       searched         pipcache-23.0.1
                            scanned
@@ -39,7 +56,7 @@ INFO       searched         pipcache-23.0.1
 INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
 
 $ python3 -I -S ioc_check.py scan pipcache-26.2.2
-HIT        wheel            pipcache-26.2.2/http-v2/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed.body
+HIT        wheel            pipcache-26.2.2/http-v2/e/d/f/9/8/edf98d7dbdca44887b739c2b326ddcc9c6745ca9e7fda029576b6794.body
                            contains litellm-1.107.0.data/purelib/cook.pth, litellm-1.107.0.data/purelib/cook.py, litellm-1.107.0.data/purelib/sitecustomize.py, litellm-1.107.0.dist-info/METADATA
 INFO       searched         pipcache-26.2.2
                            scanned
@@ -47,15 +64,15 @@ INFO       searched         pipcache-26.2.2
 INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
 
 ## files the caches hold
-pipcache-23.0.1/http/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed
-pipcache-26.2.2/http-v2/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed
-pipcache-26.2.2/http-v2/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed.body
-uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.data/purelib/cook.pth
-uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.data/purelib/cook.py
-uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.data/purelib/sitecustomize.py
-uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.dist-info/METADATA
-uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.dist-info/RECORD
-uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.dist-info/WHEEL
-uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm/__init__.py
-uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any.lock
-uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any.rev
+pipcache-23.0.1/http/e/d/f/9/8/edf98d7dbdca44887b739c2b326ddcc9c6745ca9e7fda029576b6794
+pipcache-26.2.2/http-v2/e/d/f/9/8/edf98d7dbdca44887b739c2b326ddcc9c6745ca9e7fda029576b6794
+pipcache-26.2.2/http-v2/e/d/f/9/8/edf98d7dbdca44887b739c2b326ddcc9c6745ca9e7fda029576b6794.body
+uvcache/archive-v0/aG0iyrrhOmiiqKAU/litellm-1.107.0.data/purelib/cook.pth
+uvcache/archive-v0/aG0iyrrhOmiiqKAU/litellm-1.107.0.data/purelib/cook.py
+uvcache/archive-v0/aG0iyrrhOmiiqKAU/litellm-1.107.0.data/purelib/sitecustomize.py
+uvcache/archive-v0/aG0iyrrhOmiiqKAU/litellm-1.107.0.dist-info/METADATA
+uvcache/archive-v0/aG0iyrrhOmiiqKAU/litellm-1.107.0.dist-info/RECORD
+uvcache/archive-v0/aG0iyrrhOmiiqKAU/litellm-1.107.0.dist-info/WHEEL
+uvcache/archive-v0/aG0iyrrhOmiiqKAU/litellm/__init__.py
+uvcache/wheels-v7/index/cf81c3ff8170731b/litellm/1.107.0-py3-none-any.lock
+uvcache/wheels-v7/index/cf81c3ff8170731b/litellm/1.107.0-py3-none-any.rev

@@ -1,0 +1,4 @@
+2026-10-26T23:12:19Z
+$ uvx --from pypi-attestations==0.0.30 pypi-attestations verify pypi --repository https://github.com/psf/requests pypi:requests-2.34.2-py3-none-any.whl
+OK: requests-2.34.2-py3-none-any.whl
+(exit 0)

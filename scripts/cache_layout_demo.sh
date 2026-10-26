@@ -39,16 +39,23 @@ server=$!
 for _ in $(seq 50); do [ -s port.txt ] && break; sleep 0.1; done
 url="https://127.0.0.1:$(cat port.txt)/"
 
-echo "## uv $(uv --version | cut -d' ' -f2): install into a venv"
+echo "## uv $(uv --version | cut -d' ' -f2): install into a venv (what uv prints)"
 uv venv -q --python 3.11 venv-uv
-UV_CACHE_DIR="$work/uvcache" uv pip install -q --python venv-uv/bin/python \
-  --no-index --find-links wheels litellm==1.107.0
+UV_CACHE_DIR="$work/uvcache" uv pip install --python venv-uv/bin/python \
+  --no-index --find-links wheels litellm==1.107.0 2>&1 | grep -i litellm || true
 for v in 23.0.1 26.2.2; do
+  echo
+  echo "## pip $v: install into a throwaway venv (lines that name litellm)"
   uv venv -q --python 3.11 "venv-pip$v"
   UV_CACHE_DIR="$work/uvcache-tools" uv pip install -q --python "venv-pip$v/bin/python" "pip==$v"
-  "venv-pip$v/bin/python" -m pip download -q --cert cert.pem --cache-dir "$work/pipcache-$v" \
-    --no-index --find-links "$url" -d "dl-$v" litellm==1.107.0
+  "venv-pip$v/bin/python" -m pip install --disable-pip-version-check --cert cert.pem \
+    --cache-dir "$work/pipcache-$v" --no-index --find-links "$url" litellm==1.107.0 2>&1 \
+    | grep -i litellm | sed "s#$url#https://127.0.0.1:PORT/#" || true
 done
+echo
+echo "## sha256: the wheel, and pip 26's http-v2 body"
+sha256sum wheels/litellm-1.107.0-py3-none-any.whl | cut -d' ' -f1
+find pipcache-26.2.2 -name '*.body' -exec sha256sum {} \; | cut -d' ' -f1
 
 run() {
   echo
