@@ -1,0 +1,61 @@
+## uv 0.13.0: install into a venv
+
+$ python3 -I -S ioc_check.py env venv-uv
+HIT        installed        venv-uv/lib/python3.11/site-packages/litellm-1.107.0.dist-info
+                           litellm 1.107.0 is installed
+HIT        payload-file     venv-uv/lib/python3.11/site-packages/cook.pth
+                           cook.pth in site-packages root (sha256 matches the published payload); owner: litellm-1.107.0
+HIT        payload-file     venv-uv/lib/python3.11/site-packages/cook.py
+                           cook.py in site-packages root; owner: litellm-1.107.0
+HIT        payload-file     venv-uv/lib/python3.11/site-packages/sitecustomize.py
+                           sitecustomize.py installed by litellm-1.107.0
+INFO       searched         venv-uv
+                           1 site-packages directories checked
+
+INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
+
+$ python3 -I -S ioc_check.py scan uvcache
+HIT        cache-index      uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any.rev
+                           uv cache entry for litellm 1.107.0
+HIT        cache-index      uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any.lock
+                           uv cache entry for litellm 1.107.0
+HIT        cache-index      uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any
+                           uv cache entry for litellm 1.107.0
+HIT        unpacked         uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.data
+                           unpacked litellm 1.107.0 wheel (uv archive or similar)
+HIT        unpacked         uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.dist-info
+                           unpacked litellm 1.107.0 wheel (uv archive or similar)
+INFO       searched         uvcache
+                           scanned
+
+INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
+
+$ python3 -I -S ioc_check.py scan pipcache-23.0.1
+HIT        cache-entry      pipcache-23.0.1/http/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed
+                           contains the member name litellm-1.107.0.data/purelib/cook
+INFO       searched         pipcache-23.0.1
+                           scanned
+
+INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
+
+$ python3 -I -S ioc_check.py scan pipcache-26.2.2
+HIT        wheel            pipcache-26.2.2/http-v2/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed.body
+                           contains litellm-1.107.0.data/purelib/cook.pth, litellm-1.107.0.data/purelib/cook.py, litellm-1.107.0.data/purelib/sitecustomize.py, litellm-1.107.0.dist-info/METADATA
+INFO       searched         pipcache-26.2.2
+                           scanned
+
+INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
+
+## files the caches hold
+pipcache-23.0.1/http/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed
+pipcache-26.2.2/http-v2/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed
+pipcache-26.2.2/http-v2/b/0/d/f/b/b0dfb5bb8cd56a0870e13707552ce45ba69652172c45d887502000ed.body
+uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.data/purelib/cook.pth
+uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.data/purelib/cook.py
+uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.data/purelib/sitecustomize.py
+uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.dist-info/METADATA
+uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.dist-info/RECORD
+uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm-1.107.0.dist-info/WHEEL
+uvcache/archive-v0/vJLW4hOFtVvqhCS3/litellm/__init__.py
+uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any.lock
+uvcache/wheels-v7/index/921bbda886bb0d3d/litellm/1.107.0-py3-none-any.rev

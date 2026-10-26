@@ -1,0 +1,75 @@
+checked 2026-10-26T23:00:06+00:00
+
+annotated-doc 0.0.5 (last attested 0.0.4)
+  github.com/fastapi/annotated-doc publish.yml: uv publish
+
+fastapi 0.162.0 (last attested 0.128.0)
+  github.com/fastapi/fastapi publish.yml: uv publish
+
+watchfiles 1.3.0 (last attested 1.0.4)
+  github.com/samuelcolvin/watchfiles ci.yml: uv publish --trusted-publishing always dist/*"
+  github.com/sponsors/samuelcolvin: workflows not readable (HTTP 404)
+
+typer 0.27.3 (last attested 0.21.0)
+  github.com/fastapi/typer publish.yml: uv publish
+
+httpx2 2.16.0 (last attested 2.10.0)
+  github.com/pydantic/httpx2 publish.yml: uv publish --trusted-publishing always dist/*
+
+httpcore2 2.16.0 (last attested 2.10.0)
+  github.com/pydantic/httpx2: same repository as above
+
+langchain-core 1.7.0 (last attested 0.1.53)
+  github.com/langchain-ai/langchain _release.yml: attestations: false | pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086
+
+litellm 1.106.4 (last attested 1.83.14)
+  github.com/berriai/litellm: no PyPI upload step found in .github/workflows
+
+databricks-sdk 0.157.0 (last attested 0.102.0)
+
+fastmcp 4.1.4 (last attested 0.2.0)
+  github.com/prefecthq/fastmcp publish-fastmcp-remote.yml: uv publish -v dist/fastmcp_remote-*.tar.gz dist/fastmcp_remote-*.whl
+  github.com/prefecthq/fastmcp publish-fastmcp-slim.yml: uv publish -v dist/fastmcp_slim-*.tar.gz dist/fastmcp_slim-*.whl
+  github.com/prefecthq/fastmcp publish-fastmcp-tasks.yml: uv publish -v dist/fastmcp_tasks-*.tar.gz dist/fastmcp_tasks-*.whl
+  github.com/prefecthq/fastmcp publish-fastmcp.yml: uv publish -v dist/fastmcp-*.tar.gz dist/fastmcp-*.whl
+
+rich-toolkit 0.20.6 (last attested 0.14.9)
+
+fastapi-cli 0.0.32 (last attested 0.0.20)
+  github.com/fastapi/fastapi-cli publish.yml: uv publish
+
+fastapi-cloud-cli 0.26.0 (last attested 0.5.2)
+  github.com/fastapilabs/fastapi-cloud-cli publish.yml: uv publish
+
+sqlmodel 0.0.48 (last attested 0.0.31)
+  github.com/fastapi/sqlmodel publish.yml: uv publish
+
+langfuse 5.0.4 (last attested 3.15.0)
+  github.com/langfuse/langfuse: no PyPI upload step found in .github/workflows
+  github.com/langfuse/langfuse-python release.yml: uv publish --trusted-publishing always
+
+realtime 2.33.0 (last attested 2.7.0)
+  github.com/supabase/supabase: no PyPI upload step found in .github/workflows
+  github.com/supabase/supabase-py: no PyPI upload step found in .github/workflows
+
+postgrest 2.33.0 (last attested 1.1.1)
+  github.com/supabase/supabase: same repository as above
+  github.com/supabase/supabase-py: same repository as above
+
+storage3 2.33.0 (last attested 0.12.2)
+  github.com/supabase/supabase-py: same repository as above
+
+supabase 2.33.0 (last attested 2.18.1)
+  github.com/supabase/supabase-py: same repository as above
+
+supabase-auth 2.33.0 (last attested 2.12.3)
+  github.com/supabase/supabase-py: same repository as above
+
+supabase-functions 2.33.0 (last attested 0.10.1)
+  github.com/supabase/supabase-py: same repository as above
+
+typer-slim 0.24.0 (last attested 0.21.0)
+  github.com/fastapi/typer: same repository as above
+
+dspy 3.4.1 (last attested 2.5.25)
+  github.com/stanfordnlp/dspy build_and_release.yml: attestations: false

@@ -1,0 +1,54 @@
+# AI-stack projects surveyed in addition to the top 1,000.
+# Fixed on 2026-10-27. One PyPI project name per line; text after # is ignored.
+
+# Model provider SDKs and gateways
+openai
+anthropic
+litellm            # the incident
+mistralai
+cohere
+google-genai
+groq
+ollama
+together
+replicate
+
+# Model tooling (Hugging Face and friends)
+huggingface-hub
+transformers
+tokenizers
+safetensors
+accelerate
+datasets
+sentence-transformers
+tiktoken
+torch
+vllm
+llama-cpp-python
+
+# Frameworks and agents
+langchain
+langchain-core
+langchain-openai
+langchain-community
+langgraph
+llama-index
+llama-index-core
+haystack-ai
+dspy
+crewai
+pydantic-ai
+instructor
+openai-agents
+smolagents
+autogen-agentchat
+semantic-kernel
+outlines
+mcp
+fastmcp
+
+# Vector stores
+chromadb
+qdrant-client
+pinecone
+weaviate-client

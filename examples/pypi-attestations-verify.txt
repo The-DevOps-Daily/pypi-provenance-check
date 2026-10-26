@@ -1,0 +1,9 @@
+2026-10-26T22:53:04Z
+$ pypi-attestations verify pypi --repository https://github.com/BerriAI/litellm pypi:litellm-1.83.14-py3-none-any.whl
+Verification failed: provenance was signed by repository "BerriAI/project-releaser", expected "BerriAI/litellm"
+(exit 1)
+
+$ pypi-attestations verify pypi --repository https://github.com/BerriAI/project-releaser pypi:litellm-1.83.14-py3-none-any.whl
+OK: litellm-1.83.14-py3-none-any.whl
+(exit 0)
+

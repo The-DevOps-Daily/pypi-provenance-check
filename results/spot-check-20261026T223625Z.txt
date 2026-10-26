@@ -1,0 +1,66 @@
+survey survey-20261026T223625Z.json; sample n=40 seed=7; plus 23 'attested before' projects
+ok   termcolor 3.3.0: integrity API 2/2 attested ['github.com/termcolor/termcolor'] | survey 2/2 ['github.com/termcolor/termcolor']
+ok   nvidia-nvjitlink-cu12 12.9.86: integrity API 0/3 attested  | survey 0/3 
+ok   tiktoken 0.14.0: integrity API 0/64 attested  | survey 0/64 
+ok   responses 0.26.3: integrity API 0/2 attested  | survey 0/2 
+ok   nvidia-nvjitlink 13.4.92: integrity API 0/4 attested  | survey 0/4 
+ok   yarl 1.25.1: integrity API 80/80 attested ['github.com/aio-libs/yarl'] | survey 138/138 ['github.com/aio-libs/yarl']
+ok   google-auth 2.62.0: integrity API 2/2 attested ['google-cloud-sdk-py@oss-exit-gate-prod.iam.gserviceaccount.com'] | survey 2/2 ['google-cloud-sdk-py@oss-exit-gate-prod.iam.gserviceaccount.com']
+ok   twine 7.0.0: integrity API 2/2 attested ['github.com/pypa/twine'] | survey 2/2 ['github.com/pypa/twine']
+ok   license-expression 30.4.4: integrity API 0/2 attested  | survey 0/2 
+ok   scipy 1.18.1: integrity API 61/61 attested ['github.com/scipy/scipy-release'] | survey 61/61 ['github.com/scipy/scipy-release']
+ok   argon2-cffi 25.1.0: integrity API 2/2 attested ['github.com/hynek/argon2-cffi'] | survey 2/2 ['github.com/hynek/argon2-cffi']
+ok   zeep 4.3.3: integrity API 2/2 attested ['github.com/mvantellingen/python-zeep'] | survey 2/2 ['github.com/mvantellingen/python-zeep']
+ok   opentelemetry-api 1.45.1: integrity API 0/2 attested  | survey 0/2 
+ok   grpc-interceptor 0.15.4: integrity API 0/2 attested  | survey 0/2 
+ok   limits 5.8.0: integrity API 2/2 attested ['github.com/alisaifee/limits'] | survey 2/2 ['github.com/alisaifee/limits']
+ok   docker 7.2.0: integrity API 0/2 attested  | survey 0/2 
+ok   fsspec 2026.9.0: integrity API 0/2 attested  | survey 0/2 
+ok   grpcio 1.85.0: integrity API 0/61 attested  | survey 0/61 
+ok   amqp 5.4.1: integrity API 0/2 attested  | survey 0/2 
+ok   antlr4-python3-runtime 4.13.2: integrity API 0/2 attested  | survey 0/2 
+ok   sniffio 1.3.1: integrity API 0/2 attested  | survey 0/2 
+ok   narwhals 2.27.1: integrity API 2/2 attested ['github.com/narwhals-dev/narwhals'] | survey 2/2 ['github.com/narwhals-dev/narwhals']
+ok   regex 2026.9.29: integrity API 0/80 attested  | survey 0/130 
+ok   gspread 6.2.1: integrity API 0/2 attested  | survey 0/2 
+ok   pyflakes 4.0.3: integrity API 0/2 attested  | survey 0/2 
+ok   frozenlist 1.8.0: integrity API 80/80 attested ['github.com/aio-libs/frozenlist'] | survey 130/130 ['github.com/aio-libs/frozenlist']
+ok   jsonconversion 2.0.0: integrity API 0/2 attested  | survey 0/2 
+ok   zopfli 0.4.3: integrity API 0/13 attested  | survey 0/13 
+ok   oauthlib 4.0.0: integrity API 2/2 attested ['github.com/oauthlib/oauthlib'] | survey 2/2 ['github.com/oauthlib/oauthlib']
+ok   ptyprocess 0.7.0: integrity API 0/2 attested  | survey 0/2 
+ok   jupyter-lsp 2.3.1: integrity API 0/2 attested  | survey 0/2 
+ok   pip-api 0.0.35: integrity API 2/2 attested ['github.com/di/pip-api'] | survey 2/2 ['github.com/di/pip-api']
+ok   googleapis-common-protos 1.76.0: integrity API 2/2 attested ['google-cloud-sdk-py@oss-exit-gate-prod.iam.gserviceaccount.com'] | survey 2/2 ['google-cloud-sdk-py@oss-exit-gate-prod.iam.gserviceaccount.com']
+ok   terminado 0.18.1: integrity API 0/2 attested  | survey 0/2 
+ok   msgspec 0.22.0: integrity API 80/80 attested ['github.com/msgspec/msgspec'] | survey 82/82 ['github.com/msgspec/msgspec']
+ok   hypothesis 6.170.12: integrity API 0/80 attested  | survey 0/83 
+ok   aiohttp 3.14.5: integrity API 80/80 attested ['github.com/aio-libs/aiohttp'] | survey 161/161 ['github.com/aio-libs/aiohttp']
+ok   opentelemetry-instrumentation-grpc 0.66b1: integrity API 0/2 attested  | survey 0/2 
+ok   blinker 1.9.0: integrity API 2/2 attested ['github.com/pallets-eco/blinker'] | survey 2/2 ['github.com/pallets-eco/blinker']
+ok   jsonschema 4.26.0: integrity API 2/2 attested ['github.com/python-jsonschema/jsonschema'] | survey 2/2 ['github.com/python-jsonschema/jsonschema']
+ok   annotated-doc 0.0.5: integrity API 0/2 attested  | survey 0/2 
+ok   fastapi 0.162.0: integrity API 0/2 attested  | survey 0/2 
+ok   watchfiles 1.3.0: integrity API 0/33 attested  | survey 0/33 
+ok   typer 0.27.3: integrity API 0/2 attested  | survey 0/2 
+ok   httpx2 2.16.0: integrity API 0/2 attested  | survey 0/2 
+ok   httpcore2 2.16.0: integrity API 0/2 attested  | survey 0/2 
+ok   langchain-core 1.7.0: integrity API 0/2 attested  | survey 0/2 
+ok   litellm 1.106.4: integrity API 0/8 attested  | survey 0/8 
+ok   databricks-sdk 0.157.0: integrity API 0/2 attested  | survey 0/2 
+ok   fastmcp 4.1.4: integrity API 0/2 attested  | survey 0/2 
+ok   rich-toolkit 0.20.6: integrity API 0/2 attested  | survey 0/2 
+ok   fastapi-cli 0.0.32: integrity API 0/2 attested  | survey 0/2 
+ok   fastapi-cloud-cli 0.26.0: integrity API 0/2 attested  | survey 0/2 
+ok   sqlmodel 0.0.48: integrity API 0/2 attested  | survey 0/2 
+ok   langfuse 5.0.4: integrity API 0/2 attested  | survey 0/2 
+ok   realtime 2.33.0: integrity API 0/2 attested  | survey 0/2 
+ok   postgrest 2.33.0: integrity API 0/2 attested  | survey 0/2 
+ok   storage3 2.33.0: integrity API 0/2 attested  | survey 0/2 
+ok   supabase 2.33.0: integrity API 0/2 attested  | survey 0/2 
+ok   supabase-auth 2.33.0: integrity API 0/2 attested  | survey 0/2 
+ok   supabase-functions 2.33.0: integrity API 0/2 attested  | survey 0/2 
+ok   typer-slim 0.24.0: integrity API 0/2 attested  | survey 0/2 
+ok   dspy 3.4.1: integrity API 0/2 attested  | survey 0/2 
+
+63 projects rechecked, 0 disagree with the survey, 888 requests

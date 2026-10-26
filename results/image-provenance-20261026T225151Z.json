@@ -1,0 +1,210 @@
+{
+ "checked_utc": "2026-10-26T22:51:51Z",
+ "command": "python3 -I scripts/image_provenance.py <refs>",
+ "results": [
+  {
+   "ref": "ghcr.io/berriai/litellm:v1.106.2",
+   "status": "ok",
+   "index_digest": "sha256:7294b90f868c5c38c99b83021c7ba46f9b439e95f8e32964c925c7d2563a03f7",
+   "platforms": [
+    {
+     "platform": "linux/arm64",
+     "manifest_digest": "sha256:82cb7a325d45793d8899575a768239e8079db986e25cbdebe414ec9a3586c4af",
+     "provenance_blob": "sha256:917c2106695a2dab35a384d47cede033b9ae699b809f7a70432861263554c351",
+     "predicate_type": "https://slsa.dev/provenance/v1",
+     "vcs_source": "https://github.com/BerriAI/litellm",
+     "vcs_revision": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+     "builder": "https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1",
+     "workflow_ref": "BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main",
+     "workflow_sha": "d687b69d3c722e5049e8fb2f8a3e2735b1c9ab71",
+     "event": "workflow_dispatch",
+     "dispatch_inputs": {
+      "allow_republish": "false",
+      "dry_run": "false",
+      "git_ref": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+      "release_type": "stable",
+      "repo": "litellm"
+     },
+     "started": "2026-10-21T09:15:01.879546113Z"
+    },
+    {
+     "platform": "linux/amd64",
+     "manifest_digest": "sha256:d1da6edc025e6a59be6faa50b4e8e42c115e1c99644aa3fc2ac416dd353f41da",
+     "provenance_blob": "sha256:1ffdeb3e88457108a025ec92e2b16c9d1b91a91afa790c00d11830f1b1b0ec2b",
+     "predicate_type": "https://slsa.dev/provenance/v1",
+     "vcs_source": "https://github.com/BerriAI/litellm",
+     "vcs_revision": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+     "builder": "https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1",
+     "workflow_ref": "BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main",
+     "workflow_sha": "d687b69d3c722e5049e8fb2f8a3e2735b1c9ab71",
+     "event": "workflow_dispatch",
+     "dispatch_inputs": {
+      "allow_republish": "false",
+      "dry_run": "false",
+      "git_ref": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+      "release_type": "stable",
+      "repo": "litellm"
+     },
+     "started": "2026-10-21T09:15:49.600244488Z"
+    }
+   ]
+  },
+  {
+   "ref": "ghcr.io/berriai/litellm-database:v1.106.2",
+   "status": "ok",
+   "index_digest": "sha256:35f2cec3a14bb297e08bfab56c1fc377432bc4071aaf71978fdff043a5d91e79",
+   "platforms": [
+    {
+     "platform": "linux/arm64",
+     "manifest_digest": "sha256:112c992bcf12937a3689744eafcb2ff329bda80418734d2ff3cb6254a76df12d",
+     "provenance_blob": "sha256:87977fd82bafd47e9606e44679b3c797a650e260e7c5f6176f5ddbdca1014820",
+     "predicate_type": "https://slsa.dev/provenance/v1",
+     "vcs_source": "https://github.com/BerriAI/litellm",
+     "vcs_revision": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+     "builder": "https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1",
+     "workflow_ref": "BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main",
+     "workflow_sha": "d687b69d3c722e5049e8fb2f8a3e2735b1c9ab71",
+     "event": "workflow_dispatch",
+     "dispatch_inputs": {
+      "allow_republish": "false",
+      "dry_run": "false",
+      "git_ref": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+      "release_type": "stable",
+      "repo": "litellm"
+     },
+     "started": "2026-10-21T09:14:55.176747082Z"
+    },
+    {
+     "platform": "linux/amd64",
+     "manifest_digest": "sha256:ff872b5dc880a13e54ae0d269721a8d00b24f4bf01ca09607045ff640af8a0d1",
+     "provenance_blob": "sha256:eaf3d8a431beaf71a56a84e4edb3785cb9a17edf34370f432228f8edc427392e",
+     "predicate_type": "https://slsa.dev/provenance/v1",
+     "vcs_source": "https://github.com/BerriAI/litellm",
+     "vcs_revision": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+     "builder": "https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1",
+     "workflow_ref": "BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main",
+     "workflow_sha": "d687b69d3c722e5049e8fb2f8a3e2735b1c9ab71",
+     "event": "workflow_dispatch",
+     "dispatch_inputs": {
+      "allow_republish": "false",
+      "dry_run": "false",
+      "git_ref": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+      "release_type": "stable",
+      "repo": "litellm"
+     },
+     "started": "2026-10-21T09:14:56.415516232Z"
+    }
+   ]
+  },
+  {
+   "ref": "ghcr.io/berriai/litellm-non_root:v1.106.2",
+   "status": "ok",
+   "index_digest": "sha256:07fabea33dfc2b127e865c03112dfc76936334b29028ec05cdd355af2385dc04",
+   "platforms": [
+    {
+     "platform": "linux/amd64",
+     "manifest_digest": "sha256:837d52def60d8f383aeddb12f09940a962377db2167e2f585c4cfc06949467b3",
+     "provenance_blob": "sha256:abde1dbf5b80c913ab349de0acca4cde954e86b1793cbb487597f8d8df92b509",
+     "predicate_type": "https://slsa.dev/provenance/v1",
+     "vcs_source": "https://github.com/BerriAI/litellm",
+     "vcs_revision": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+     "builder": "https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1",
+     "workflow_ref": "BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main",
+     "workflow_sha": "d687b69d3c722e5049e8fb2f8a3e2735b1c9ab71",
+     "event": "workflow_dispatch",
+     "dispatch_inputs": {
+      "allow_republish": "false",
+      "dry_run": "false",
+      "git_ref": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+      "release_type": "stable",
+      "repo": "litellm"
+     },
+     "started": "2026-10-21T09:14:55.971582251Z"
+    },
+    {
+     "platform": "linux/arm64",
+     "manifest_digest": "sha256:c7897ae3b80a911b07b07cb8745de097f342ed772cbfe4d8db367d815ad6ec2d",
+     "provenance_blob": "sha256:aa841c36d137eaee99af143fb324984b88d1db5d002cf8e63219913925828d60",
+     "predicate_type": "https://slsa.dev/provenance/v1",
+     "vcs_source": "https://github.com/BerriAI/litellm",
+     "vcs_revision": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+     "builder": "https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1",
+     "workflow_ref": "BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main",
+     "workflow_sha": "d687b69d3c722e5049e8fb2f8a3e2735b1c9ab71",
+     "event": "workflow_dispatch",
+     "dispatch_inputs": {
+      "allow_republish": "false",
+      "dry_run": "false",
+      "git_ref": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+      "release_type": "stable",
+      "repo": "litellm"
+     },
+     "started": "2026-10-21T09:15:55.22009092Z"
+    }
+   ]
+  },
+  {
+   "ref": "ghcr.io/berriai/litellm:v1.107.0",
+   "status": "HTTP 404"
+  },
+  {
+   "ref": "ghcr.io/berriai/litellm@sha256:bd1aeee419ea36da9aa2b657288da4101887be468f020ac63d22ba6ed84a3ea5",
+   "status": "HTTP 404"
+  },
+  {
+   "ref": "ghcr.io/berriai/litellm-database@sha256:24581ddc30767f16ecb69d2b0517556f2cd7dea56971adb42a3d1beb97d69523",
+   "status": "HTTP 404"
+  },
+  {
+   "ref": "ghcr.io/berriai/litellm-non_root@sha256:645a67d810628252d63df85dcc8824c58bcc77cf8383f4d3e6321f0ccc3ce9e4",
+   "status": "HTTP 404"
+  },
+  {
+   "ref": "docker.io/litellm/litellm:v1.106.2",
+   "status": "ok",
+   "index_digest": "sha256:7294b90f868c5c38c99b83021c7ba46f9b439e95f8e32964c925c7d2563a03f7",
+   "platforms": [
+    {
+     "platform": "linux/arm64",
+     "manifest_digest": "sha256:82cb7a325d45793d8899575a768239e8079db986e25cbdebe414ec9a3586c4af",
+     "provenance_blob": "sha256:917c2106695a2dab35a384d47cede033b9ae699b809f7a70432861263554c351",
+     "predicate_type": "https://slsa.dev/provenance/v1",
+     "vcs_source": "https://github.com/BerriAI/litellm",
+     "vcs_revision": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+     "builder": "https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1",
+     "workflow_ref": "BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main",
+     "workflow_sha": "d687b69d3c722e5049e8fb2f8a3e2735b1c9ab71",
+     "event": "workflow_dispatch",
+     "dispatch_inputs": {
+      "allow_republish": "false",
+      "dry_run": "false",
+      "git_ref": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+      "release_type": "stable",
+      "repo": "litellm"
+     },
+     "started": "2026-10-21T09:15:01.879546113Z"
+    },
+    {
+     "platform": "linux/amd64",
+     "manifest_digest": "sha256:d1da6edc025e6a59be6faa50b4e8e42c115e1c99644aa3fc2ac416dd353f41da",
+     "provenance_blob": "sha256:1ffdeb3e88457108a025ec92e2b16c9d1b91a91afa790c00d11830f1b1b0ec2b",
+     "predicate_type": "https://slsa.dev/provenance/v1",
+     "vcs_source": "https://github.com/BerriAI/litellm",
+     "vcs_revision": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+     "builder": "https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1",
+     "workflow_ref": "BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main",
+     "workflow_sha": "d687b69d3c722e5049e8fb2f8a3e2735b1c9ab71",
+     "event": "workflow_dispatch",
+     "dispatch_inputs": {
+      "allow_republish": "false",
+      "dry_run": "false",
+      "git_ref": "49943cd52ea46aacf8db2e5cb2b890d580fe9bb4",
+      "release_type": "stable",
+      "repo": "litellm"
+     },
+     "started": "2026-10-21T09:15:49.600244488Z"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,61 @@
+$ python3 -I -S ioc_check.py env fx/infected-venv
+HIT        installed        fx/infected-venv/lib/python3.12/site-packages/litellm-1.107.0.dist-info
+                           litellm 1.107.0 is installed
+HIT        payload-file     fx/infected-venv/lib/python3.12/site-packages/cook.pth
+                           cook.pth in site-packages root (sha256 matches the published payload); owner: litellm-1.107.0
+HIT        payload-file     fx/infected-venv/lib/python3.12/site-packages/cook.py
+                           cook.py in site-packages root; owner: litellm-1.107.0
+HIT        payload-file     fx/infected-venv/lib/python3.12/site-packages/sitecustomize.py
+                           sitecustomize.py installed by litellm-1.107.0
+INFO       searched         fx/infected-venv
+                           1 site-packages directories checked
+
+INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
+(exit 1)
+
+$ python3 -I -S ioc_check.py env fx/clean-venv
+INFO       installed        fx/clean-venv/lib/python3.12/site-packages/litellm-1.106.2.dist-info
+                           litellm 1.106.2 installed
+INFO       searched         fx/clean-venv
+                           1 site-packages directories checked
+
+no indicator of the litellm 1.107.0 payload found (exit 0)
+(exit 0)
+
+$ python3 -I -S ioc_check.py scan fx/image-docker-save.tar
+HIT        image-layer      fx/image-docker-save.tar!abc123/layer.tar
+                           contains app/.venv/lib/python3.13/site-packages/cook.pth
+HIT        image-layer      fx/image-docker-save.tar!abc123/layer.tar
+                           contains app/.venv/lib/python3.13/site-packages/cook.py
+HIT        image-layer      fx/image-docker-save.tar!abc123/layer.tar
+                           contains app/.venv/lib/python3.13/site-packages/litellm-1.107.0.dist-info/METADATA
+WARN       image-layer      fx/image-docker-save.tar!abc123/layer.tar
+                           contains app/.venv/lib/python3.13/site-packages/sitecustomize.py (check which package owns it)
+INFO       searched         fx/image-docker-save.tar
+                           scanned
+
+INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
+(exit 1)
+
+$ python3 -I -S ioc_check.py scan fx/image-oci.tar
+HIT        image-layer      fx/image-oci.tar!blobs/sha256/c89e9639d8d8f1bd700a0fc006ca3ba24e1998ce48f59df76442e13b276fd8ee
+                           contains app/.venv/lib/python3.13/site-packages/cook.pth
+HIT        image-layer      fx/image-oci.tar!blobs/sha256/c89e9639d8d8f1bd700a0fc006ca3ba24e1998ce48f59df76442e13b276fd8ee
+                           contains app/.venv/lib/python3.13/site-packages/cook.py
+HIT        image-layer      fx/image-oci.tar!blobs/sha256/c89e9639d8d8f1bd700a0fc006ca3ba24e1998ce48f59df76442e13b276fd8ee
+                           contains app/.venv/lib/python3.13/site-packages/litellm-1.107.0.dist-info/METADATA
+WARN       image-layer      fx/image-oci.tar!blobs/sha256/c89e9639d8d8f1bd700a0fc006ca3ba24e1998ce48f59df76442e13b276fd8ee
+                           contains app/.venv/lib/python3.13/site-packages/sitecustomize.py (check which package owns it)
+INFO       searched         fx/image-oci.tar
+                           scanned
+
+INDICATORS FOUND: treat this host as compromised and rotate what it could reach (exit 1)
+(exit 1)
+
+$ python3 -I -S ioc_check.py scan fx/image-oci-clean.tar
+INFO       searched         fx/image-oci-clean.tar
+                           scanned
+
+no indicator of the litellm 1.107.0 payload found (exit 0)
+(exit 0)
+

@@ -1,0 +1,63 @@
+2026-10-26T22:55:10Z
+$ python3 -I provenance_check.py --lock examples/litellm-1.106.2-lock/requirements.txt
+aiohappyeyeballs==2.7.1              attested-match       GitHub repository=aio-libs/aiohappyeyeballs workflow=ci-cd.yml environment=pypi
+aiohttp==3.14.5                      attested-match       GitHub repository=aio-libs/aiohttp workflow=ci-cd.yml environment=pypi
+aiosignal==1.4.0                     attested-match       GitHub repository=aio-libs/aiosignal workflow=ci-cd.yml environment=pypi
+annotated-types==0.8.0               no-attestation     
+anyio==4.15.1                        attested-match       GitHub repository=agronholm/anyio workflow=publish.yml environment=release
+attrs==26.1.0                        attested-match       GitHub repository=python-attrs/attrs workflow=pypi-package.yml environment=release-pypi
+boto3==1.43.118                      no-attestation     
+botocore==1.43.118                   no-attestation     
+certifi==2026.10.23                  attested-match       GitHub repository=certifi/python-certifi workflow=release.yml environment=release
+charset-normalizer==3.5.2            attested-match       GitHub repository=jawah/charset_normalizer workflow=cd.yml environment=pypi
+click==8.5.0                         attested-match       GitHub repository=pallets/click workflow=publish.yaml environment=publish
+distro==1.9.0                        no-attestation     
+fastuuid==0.14.0                     no-attestation     
+filelock==3.32.7                     attested-other-repo  GitHub repository=tox-dev/filelock workflow=release.yaml environment=release  (metadata: github.com/tox-dev/py-filelock)
+frozenlist==1.8.0                    attested-match       GitHub repository=aio-libs/frozenlist workflow=ci-cd.yml environment=pypi
+fsspec==2026.9.0                     no-attestation     
+h11==0.16.0                          no-attestation     
+h2==4.4.1                            no-attestation     
+hf-xet==1.7.0                        attested-match       GitHub repository=huggingface/xet-core workflow=release.yml environment=release
+hpack==4.2.0                         no-attestation     
+httpcore==1.0.9                      no-attestation     
+httpx==0.28.1                        no-attestation     
+huggingface-hub==1.33.0              attested-match       GitHub repository=huggingface/huggingface_hub workflow=release.yml environment=pypi
+hyperframe==6.1.0                    no-attestation     
+idna==3.20                           attested-match       GitHub repository=kjd/idna workflow=deploy.yml environment=pypi
+importlib-metadata==8.9.0            no-attestation     
+jinja2==3.1.6                        attested-match       GitHub repository=pallets/jinja workflow=publish.yaml environment=publish
+jiter==0.18.0                        attested-match       GitHub repository=pydantic/jiter workflow=ci.yml environment=release-python
+jmespath==1.1.0                      no-attestation     
+jsonschema==4.26.0                   attested-match       GitHub repository=python-jsonschema/jsonschema workflow=ci.yml environment=pypi
+jsonschema-specifications==2025.9.1  attested-match       GitHub repository=python-jsonschema/jsonschema-specifications workflow=ci.yml environment=pypi
+litellm==1.106.2                     no-attestation     
+markupsafe==3.0.4                    attested-match       GitHub repository=pallets/markupsafe workflow=publish.yaml environment=publish
+multidict==7.2.1                     attested-match       GitHub repository=aio-libs/multidict workflow=ci-cd.yml environment=pypi
+openai==2.54.0                       attested-match       GitHub repository=openai/openai-python workflow=create-releases.yml environment=publish
+packaging==26.3                      attested-match       GitHub repository=pypa/packaging workflow=publish.yml environment=pypi
+propcache==0.5.4                     attested-match       GitHub repository=aio-libs/propcache workflow=ci-cd.yml environment=pypi
+pydantic==2.14.1                     attested-match       GitHub repository=pydantic/pydantic workflow=ci.yml environment=release
+pydantic-core==2.50.1                no-attestation     
+pydantic-settings==2.16.1            attested-match       GitHub repository=pydantic/pydantic-settings workflow=ci.yml environment=release
+python-dateutil==2.9.0.post0         no-attestation     
+python-dotenv==1.2.4                 attested-match       GitHub repository=theskumar/python-dotenv workflow=release.yml environment=release
+pyyaml==6.0.3                        no-attestation     
+referencing==0.37.0                  attested-match       GitHub repository=python-jsonschema/referencing workflow=ci.yml environment=pypi
+regex==2026.9.29                     no-attestation     
+requests==2.34.2                     attested-match       GitHub repository=psf/requests workflow=publish.yml environment=publish
+rpds-py==2026.9.1                    attested-match       GitHub repository=crate-py/rpds workflow=CI.yml environment=pypi
+s3transfer==0.19.3                   no-attestation     
+six==1.17.0                          no-attestation     
+sniffio==1.3.1                       no-attestation     
+tiktoken==0.14.0                     no-attestation     
+tokenizers==0.23.3                   attested-match       GitHub repository=huggingface/tokenizers workflow=python-release.yml environment=release
+tqdm==4.70.1                         attested-match       GitHub repository=tqdm/tqdm workflow=test.yml environment=pypi
+typing-extensions==4.16.0            attested-match       GitHub repository=python/typing_extensions workflow=publish.yml environment=publish
+typing-inspection==0.4.4             attested-match       GitHub repository=pydantic/typing-inspection workflow=ci.yml environment=release
+urllib3==2.8.0                       attested-match       GitHub repository=urllib3/urllib3 workflow=publish.yml environment=publish
+yarl==1.25.1                         attested-match       GitHub repository=aio-libs/yarl workflow=ci-cd.yml environment=pypi
+zipp==4.1.2                          no-attestation     
+
+attested-match: 33, attested-other-repo: 1, no-attestation: 24
+(exit 0)

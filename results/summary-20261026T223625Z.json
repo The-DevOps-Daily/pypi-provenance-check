@@ -1,0 +1,724 @@
+{
+ "survey": "survey-20261026T223625Z.json",
+ "started_utc": "2026-10-26T22:36:25+00:00",
+ "top_list_last_update": "2026-10-01 12:40:51",
+ "not_ok": [],
+ "groups": {
+  "top 1-1000": {
+   "projects": 1000,
+   "counts": {
+    "match": 329,
+    "match-after-rename": 5,
+    "separate-public": 5,
+    "separate-not-visible": 14,
+    "metadata-no-repo": 7,
+    "no-repo-publisher": 30,
+    "none": 610
+   },
+   "attested": 390,
+   "attested_pct": 39.0,
+   "names_metadata_repo": 334,
+   "names_metadata_repo_pct": 33.4
+  },
+  "top 1-100": {
+   "projects": 100,
+   "counts": {
+    "match": 55,
+    "match-after-rename": 1,
+    "separate-public": 2,
+    "separate-not-visible": 0,
+    "metadata-no-repo": 0,
+    "no-repo-publisher": 2,
+    "none": 40
+   },
+   "attested": 60,
+   "attested_pct": 60.0,
+   "names_metadata_repo": 56,
+   "names_metadata_repo_pct": 56.0
+  },
+  "top 101-500": {
+   "projects": 400,
+   "counts": {
+    "match": 138,
+    "match-after-rename": 2,
+    "separate-public": 3,
+    "separate-not-visible": 1,
+    "metadata-no-repo": 3,
+    "no-repo-publisher": 15,
+    "none": 238
+   },
+   "attested": 162,
+   "attested_pct": 40.5,
+   "names_metadata_repo": 140,
+   "names_metadata_repo_pct": 35.0
+  },
+  "top 501-1000": {
+   "projects": 500,
+   "counts": {
+    "match": 136,
+    "match-after-rename": 2,
+    "separate-public": 0,
+    "separate-not-visible": 13,
+    "metadata-no-repo": 4,
+    "no-repo-publisher": 13,
+    "none": 332
+   },
+   "attested": 168,
+   "attested_pct": 33.6,
+   "names_metadata_repo": 138,
+   "names_metadata_repo_pct": 27.6
+  },
+  "top 1-1000, latest uploaded on or after 2024-11-14": {
+   "projects": 864,
+   "counts": {
+    "match": 328,
+    "match-after-rename": 5,
+    "separate-public": 5,
+    "separate-not-visible": 14,
+    "metadata-no-repo": 7,
+    "no-repo-publisher": 30,
+    "none": 475
+   },
+   "attested": 389,
+   "attested_pct": 45.0,
+   "names_metadata_repo": 333,
+   "names_metadata_repo_pct": 38.5
+  },
+  "AI-stack list": {
+   "projects": 44,
+   "counts": {
+    "match": 11,
+    "match-after-rename": 0,
+    "separate-public": 0,
+    "separate-not-visible": 0,
+    "metadata-no-repo": 1,
+    "no-repo-publisher": 1,
+    "none": 31
+   },
+   "attested": 13,
+   "attested_pct": 29.5,
+   "names_metadata_repo": 11,
+   "names_metadata_repo_pct": 25.0
+  }
+ },
+ "regressions": [
+  {
+   "project": "annotated-doc",
+   "rank": 69,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "0.0.5",
+   "latest_upload": "2026-07-28T13:50:57.239109Z",
+   "last_attested_version": "0.0.4",
+   "last_attested_upload": "2025-11-10T22:07:42.062214Z"
+  },
+  {
+   "project": "fastapi",
+   "rank": 74,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "0.162.0",
+   "latest_upload": "2026-10-23T18:47:31.734776Z",
+   "last_attested_version": "0.128.0",
+   "last_attested_upload": "2025-12-27T15:21:13.714811Z"
+  },
+  {
+   "project": "watchfiles",
+   "rank": 94,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "1.3.0",
+   "latest_upload": "2026-09-21T09:08:13.518274Z",
+   "last_attested_version": "1.0.4",
+   "last_attested_upload": "2025-01-10T13:05:56.196676Z"
+  },
+  {
+   "project": "typer",
+   "rank": 114,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "0.27.3",
+   "latest_upload": "2026-10-06T17:24:15.054699Z",
+   "last_attested_version": "0.21.0",
+   "last_attested_upload": "2025-12-25T09:54:53.651524Z"
+  },
+  {
+   "project": "httpx2",
+   "rank": 129,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "2.16.0",
+   "latest_upload": "2026-10-21T07:09:44.010669Z",
+   "last_attested_version": "2.10.0",
+   "last_attested_upload": "2026-08-09T09:11:33.240554Z"
+  },
+  {
+   "project": "httpcore2",
+   "rank": 130,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "2.16.0",
+   "latest_upload": "2026-10-21T07:09:42.802531Z",
+   "last_attested_version": "2.10.0",
+   "last_attested_upload": "2026-08-09T09:11:32.123951Z"
+  },
+  {
+   "project": "langchain-core",
+   "rank": 195,
+   "lists": [
+    "top",
+    "ai"
+   ],
+   "latest_version": "1.7.0",
+   "latest_upload": "2026-10-22T17:47:19.749482Z",
+   "last_attested_version": "0.1.53",
+   "last_attested_upload": "2024-11-02T00:27:25.160180Z"
+  },
+  {
+   "project": "litellm",
+   "rank": 283,
+   "lists": [
+    "top",
+    "ai"
+   ],
+   "latest_version": "1.106.4",
+   "latest_upload": "2026-10-25T09:32:43.590668Z",
+   "last_attested_version": "1.83.14",
+   "last_attested_upload": "2026-04-26T03:16:10.176009Z"
+  },
+  {
+   "project": "databricks-sdk",
+   "rank": 302,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "0.157.0",
+   "latest_upload": "2026-10-24T09:30:20.558051Z",
+   "last_attested_version": "0.102.0",
+   "last_attested_upload": "2026-03-19T08:15:54.428598Z"
+  },
+  {
+   "project": "fastmcp",
+   "rank": 400,
+   "lists": [
+    "top",
+    "ai"
+   ],
+   "latest_version": "4.1.4",
+   "latest_upload": "2026-10-26T06:25:17.760303Z",
+   "last_attested_version": "0.2.0",
+   "last_attested_upload": "2024-11-30T03:59:57.525242Z"
+  },
+  {
+   "project": "rich-toolkit",
+   "rank": 473,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "0.20.6",
+   "latest_upload": "2026-10-08T08:51:00.412658Z",
+   "last_attested_version": "0.14.9",
+   "last_attested_upload": "2025-07-28T13:25:39.604727Z"
+  },
+  {
+   "project": "fastapi-cli",
+   "rank": 492,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "0.0.32",
+   "latest_upload": "2026-07-16T12:16:57.297076Z",
+   "last_attested_version": "0.0.20",
+   "last_attested_upload": "2025-12-22T17:13:33.794220Z"
+  },
+  {
+   "project": "fastapi-cloud-cli",
+   "rank": 584,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "0.26.0",
+   "latest_upload": "2026-09-10T16:52:13.493621Z",
+   "last_attested_version": "0.5.2",
+   "last_attested_upload": "2025-11-25T11:06:14.583237Z"
+  },
+  {
+   "project": "sqlmodel",
+   "rank": 678,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "0.0.48",
+   "latest_upload": "2026-10-06T21:44:35.326642Z",
+   "last_attested_version": "0.0.31",
+   "last_attested_upload": "2025-12-28T12:35:01.436804Z"
+  },
+  {
+   "project": "langfuse",
+   "rank": 706,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "5.0.4",
+   "latest_upload": "2026-10-21T07:36:06.457679Z",
+   "last_attested_version": "3.15.0",
+   "last_attested_upload": "2026-05-21T11:12:59.643008Z"
+  },
+  {
+   "project": "realtime",
+   "rank": 733,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "2.33.0",
+   "latest_upload": "2026-10-15T19:14:18.493230Z",
+   "last_attested_version": "2.7.0",
+   "last_attested_upload": "2025-07-28T18:54:22.949381Z"
+  },
+  {
+   "project": "postgrest",
+   "rank": 734,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "2.33.0",
+   "latest_upload": "2026-10-15T19:14:16.659115Z",
+   "last_attested_version": "1.1.1",
+   "last_attested_upload": "2025-06-23T19:21:34.742060Z"
+  },
+  {
+   "project": "storage3",
+   "rank": 735,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "2.33.0",
+   "latest_upload": "2026-10-15T19:14:20.459378Z",
+   "last_attested_version": "0.12.2",
+   "last_attested_upload": "2025-08-15T19:23:42.932296Z"
+  },
+  {
+   "project": "supabase",
+   "rank": 736,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "2.33.0",
+   "latest_upload": "2026-10-15T19:14:22.260798Z",
+   "last_attested_version": "2.18.1",
+   "last_attested_upload": "2025-08-12T19:02:27.852309Z"
+  },
+  {
+   "project": "supabase-auth",
+   "rank": 786,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "2.33.0",
+   "latest_upload": "2026-10-15T19:14:24.247633Z",
+   "last_attested_version": "2.12.3",
+   "last_attested_upload": "2025-07-04T06:49:22.906807Z"
+  },
+  {
+   "project": "supabase-functions",
+   "rank": 787,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "2.33.0",
+   "latest_upload": "2026-10-15T19:14:26.253168Z",
+   "last_attested_version": "0.10.1",
+   "last_attested_upload": "2025-06-23T18:26:12.239850Z"
+  },
+  {
+   "project": "typer-slim",
+   "rank": 897,
+   "lists": [
+    "top"
+   ],
+   "latest_version": "0.24.0",
+   "latest_upload": "2026-02-16T22:08:49.920320Z",
+   "last_attested_version": "0.21.0",
+   "last_attested_upload": "2025-12-25T09:54:55.998280Z"
+  },
+  {
+   "project": "dspy",
+   "rank": null,
+   "lists": [
+    "ai"
+   ],
+   "latest_version": "3.4.1",
+   "latest_upload": "2026-10-12T23:07:23.761902Z",
+   "last_attested_version": "2.5.25",
+   "last_attested_upload": "2024-11-04T15:25:56.948560Z"
+  }
+ ],
+ "regressions_top1000": 22,
+ "partial": [
+  {
+   "project": "sqlalchemy",
+   "latest_version": "2.1.6",
+   "latest_files_attested": 64,
+   "latest_files": 72
+  },
+  {
+   "project": "argon2-cffi-bindings",
+   "latest_version": "26.1.0",
+   "latest_files_attested": 40,
+   "latest_files": 41
+  },
+  {
+   "project": "semgrep",
+   "latest_version": "1.182.1",
+   "latest_files_attested": 7,
+   "latest_files": 8
+  }
+ ],
+ "not_matching_metadata": [
+  {
+   "project": "numpy",
+   "rank": 23,
+   "publisher_repos": [
+    "github.com/numpy/numpy-release"
+   ],
+   "metadata_repos": [
+    "github.com/numpy/numpy"
+   ],
+   "category": "separate-public"
+  },
+  {
+   "project": "filelock",
+   "rank": 44,
+   "publisher_repos": [
+    "github.com/tox-dev/filelock"
+   ],
+   "metadata_repos": [
+    "github.com/tox-dev/py-filelock"
+   ],
+   "category": "match-after-rename"
+  },
+  {
+   "project": "scipy",
+   "rank": 97,
+   "publisher_repos": [
+    "github.com/scipy/scipy-release"
+   ],
+   "metadata_repos": [
+    "github.com/scipy/scipy"
+   ],
+   "category": "separate-public"
+  },
+  {
+   "project": "scikit-learn",
+   "rank": 150,
+   "publisher_repos": [
+    "github.com/scikit-learn/scikit-learn-release"
+   ],
+   "metadata_repos": [
+    "github.com/scikit-learn/scikit-learn"
+   ],
+   "category": "separate-public"
+  },
+  {
+   "project": "matplotlib",
+   "rank": 169,
+   "publisher_repos": [
+    "github.com/matplotlib/matplotlib-release"
+   ],
+   "metadata_repos": [
+    "github.com/matplotlib/matplotlib"
+   ],
+   "category": "separate-public"
+  },
+  {
+   "project": "execnet",
+   "rank": 214,
+   "publisher_repos": [
+    "github.com/pytest-dev/execnet"
+   ],
+   "metadata_repos": [],
+   "category": "metadata-no-repo"
+  },
+  {
+   "project": "pytest-json-ctrf",
+   "rank": 237,
+   "publisher_repos": [
+    "github.com/qamania/pytest-common-test-report-json"
+   ],
+   "metadata_repos": [
+    "github.com/infopulse/pytest-common-test-report-json"
+   ],
+   "category": "separate-public"
+  },
+  {
+   "project": "pendulum",
+   "rank": 403,
+   "publisher_repos": [
+    "github.com/python-pendulum/pendulum"
+   ],
+   "metadata_repos": [
+    "github.com/sdispater/pendulum"
+   ],
+   "category": "match-after-rename"
+  },
+  {
+   "project": "modal",
+   "rank": 408,
+   "publisher_repos": [
+    "github.com/modal-labs/modal"
+   ],
+   "metadata_repos": [
+    "github.com/modal-labs/modal-client"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "numba",
+   "rank": 409,
+   "publisher_repos": [
+    "github.com/numba/numba"
+   ],
+   "metadata_repos": [],
+   "category": "metadata-no-repo"
+  },
+  {
+   "project": "dulwich",
+   "rank": 419,
+   "publisher_repos": [
+    "github.com/jelmer/dulwich"
+   ],
+   "metadata_repos": [
+    "github.com/dulwich/dulwich"
+   ],
+   "category": "match-after-rename"
+  },
+  {
+   "project": "thrift",
+   "rank": 455,
+   "publisher_repos": [
+    "github.com/apache/thrift"
+   ],
+   "metadata_repos": [],
+   "category": "metadata-no-repo"
+  },
+  {
+   "project": "amazon-ion",
+   "rank": 545,
+   "publisher_repos": [
+    "github.com/amazon-ion/ion-python"
+   ],
+   "metadata_repos": [],
+   "category": "metadata-no-repo"
+  },
+  {
+   "project": "cramjam",
+   "rank": 577,
+   "publisher_repos": [
+    "github.com/milesgranger/cramjam"
+   ],
+   "metadata_repos": [
+    "github.com/milesgranger/pyrus-cramjam"
+   ],
+   "category": "match-after-rename"
+  },
+  {
+   "project": "selenium",
+   "rank": 614,
+   "publisher_repos": [
+    "github.com/seleniumhq/selenium"
+   ],
+   "metadata_repos": [],
+   "category": "metadata-no-repo"
+  },
+  {
+   "project": "mlflow-skinny",
+   "rank": 658,
+   "publisher_repos": [
+    "github.com/mlflow/releases"
+   ],
+   "metadata_repos": [
+    "github.com/mlflow/mlflow"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "logfire-api",
+   "rank": 679,
+   "publisher_repos": [
+    "github.com/pydantic/logfire"
+   ],
+   "metadata_repos": [],
+   "category": "metadata-no-repo"
+  },
+  {
+   "project": "spacy",
+   "rank": 745,
+   "publisher_repos": [
+    "github.com/explosion/wheelmonger"
+   ],
+   "metadata_repos": [
+    "github.com/explosion/spacy"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "murmurhash",
+   "rank": 752,
+   "publisher_repos": [
+    "github.com/explosion/wheelmonger"
+   ],
+   "metadata_repos": [
+    "github.com/explosion/murmurhash"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "blis",
+   "rank": 759,
+   "publisher_repos": [
+    "github.com/explosion/wheelmonger"
+   ],
+   "metadata_repos": [
+    "github.com/explosion/cython-blis"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "srsly",
+   "rank": 763,
+   "publisher_repos": [
+    "github.com/explosion/wheelmonger"
+   ],
+   "metadata_repos": [
+    "github.com/explosion/srsly"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "mlflow",
+   "rank": 765,
+   "publisher_repos": [
+    "github.com/mlflow/releases"
+   ],
+   "metadata_repos": [
+    "github.com/mlflow/mlflow"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "preshed",
+   "rank": 767,
+   "publisher_repos": [
+    "github.com/explosion/wheelmonger"
+   ],
+   "metadata_repos": [
+    "github.com/explosion/preshed"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "cymem",
+   "rank": 770,
+   "publisher_repos": [
+    "github.com/explosion/wheelmonger"
+   ],
+   "metadata_repos": [
+    "github.com/explosion/cymem"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "confection",
+   "rank": 792,
+   "publisher_repos": [
+    "github.com/explosion/wheelmonger"
+   ],
+   "metadata_repos": [
+    "github.com/explosion/confection"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "leather",
+   "rank": 807,
+   "publisher_repos": [
+    "github.com/wireservice/leather"
+   ],
+   "metadata_repos": [],
+   "category": "metadata-no-repo"
+  },
+  {
+   "project": "weasel",
+   "rank": 808,
+   "publisher_repos": [
+    "github.com/explosion/wheelmonger"
+   ],
+   "metadata_repos": [
+    "github.com/explosion/weasel"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "dbt-extractor",
+   "rank": 813,
+   "publisher_repos": [
+    "github.com/dbt-labs/dbt-extractor"
+   ],
+   "metadata_repos": [
+    "github.com/dbt-labs/dbt-parser-generator"
+   ],
+   "category": "match-after-rename"
+  },
+  {
+   "project": "semgrep",
+   "rank": 815,
+   "publisher_repos": [
+    "github.com/semgrep/semgrep-proprietary"
+   ],
+   "metadata_repos": [
+    "github.com/semgrep/semgrep"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "dbt-protos",
+   "rank": 872,
+   "publisher_repos": [
+    "github.com/dbt-labs/proto"
+   ],
+   "metadata_repos": [
+    "github.com/dbt-labs/proto-python-public"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "mlflow-tracing",
+   "rank": 915,
+   "publisher_repos": [
+    "github.com/mlflow/releases"
+   ],
+   "metadata_repos": [
+    "github.com/mlflow/mlflow"
+   ],
+   "category": "separate-not-visible"
+  },
+  {
+   "project": "autogen-agentchat",
+   "rank": null,
+   "publisher_repos": [
+    "github.com/microsoft/autogen"
+   ],
+   "metadata_repos": [],
+   "category": "metadata-no-repo"
+  }
+ ],
+ "predicate_types": {
+  "https://docs.pypi.org/attestations/publish/v1": 396
+ }
+}
