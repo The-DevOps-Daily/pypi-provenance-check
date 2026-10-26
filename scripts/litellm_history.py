@@ -47,7 +47,7 @@ def main():
         runs[-1]["releases"] += 1
     publishers = {}
     attested = [r for r in ordered if r["attested"]]
-    for r in (attested[:1] + attested[-1:]):
+    for r in attested:  # one attested file per attested release
         prov = pc.fetch_provenance(http, pc.normalize(project), r["version"], r["example"])
         publishers[r["version"]] = prov
     removed = [v for v in ("1.107.0",) if project == "litellm" and v not in releases]
@@ -64,9 +64,13 @@ def main():
         label = "attested  " if run["attested"] else "no attest."
         print(f"  {label} {run['releases']:>4} releases  {run['first']} ({run['first_upload'][:10]})"
               f" .. {run['last']} ({run['last_upload'][:10]})")
+    seen = {}
     for v, prov in publishers.items():
-        pubs = "; ".join(pc.publisher_label(p) for p in (prov or {}).get("publishers", []))
-        print(f"  publisher of {v}: {pubs}")
+        pubs = "; ".join(pc.publisher_label(p) for p in (prov or {}).get("publishers", [])) or "none"
+        seen.setdefault(pubs, []).append(v)
+    for pubs, versions in seen.items():
+        print(f"  publisher on {len(versions)} of {len(publishers)} attested releases"
+              f" ({versions[0]} .. {versions[-1]}): {pubs}")
     for v in removed:
         print(f"  {v}: not on PyPI (removed on 21 Oct 2026)")
     print(f"wrote {os.path.relpath(path, ROOT)}")

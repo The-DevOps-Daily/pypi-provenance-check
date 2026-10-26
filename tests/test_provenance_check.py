@@ -1,6 +1,7 @@
 """Offline tests: PyPI answers come from a fake client, shaped like the real ones."""
 import base64
 import contextlib
+import hashlib
 import io
 import json
 import os
@@ -54,7 +55,17 @@ ROUTES = {
     "https://pypi.org/pypi/requests/2.34.2/json": release(
         "requests", "2.34.2", [("requests-2.34.2-py3-none-any.whl", "c" * 64)], "https://github.com/psf/requests/tree/main"),
     "https://pypi.org/integrity/requests/2.34.2/requests-2.34.2-py3-none-any.whl/provenance": provenance(REQUESTS_PUB),
+    "https://pypi.org/simple/litellm/": {"files": [
+        {"filename": "litellm-1.83.14-py3-none-any.whl", "provenance": "https://pypi.org/integrity/..."},
+        {"filename": "litellm-1.106.2-cp310-abi3-manylinux_2_28_x86_64.whl", "provenance": None}]},
+    "https://pypi.org/simple/requests/": {"files": [
+        {"filename": "requests-2.34.2-py3-none-any.whl", "provenance": "https://pypi.org/integrity/..."},
+        {"filename": "requests-2.34.2.tar.gz", "provenance": None}]},
 }
+# requests 2.34.2 here has a wheel (attested) and an sdist (not attested)
+ROUTES["https://pypi.org/pypi/requests/2.34.2/json"]["urls"].append(
+    {"filename": "requests-2.34.2.tar.gz", "digests": {"sha256": "e" * 64}})
+ROUTES["https://pypi.org/pypi/requests/2.34.2/json"]["urls"][0]["core-metadata"] = {"sha256": "PLACEHOLDER"}
 
 
 def run(*argv):
@@ -106,10 +117,40 @@ class TestVerdicts(unittest.TestCase):
         self.assertRegex(out, r"litellm==1\.106\.2\s+no-attestation")
         self.assertRegex(out, r"litellm==1\.107\.0\s+not-on-pypi")
 
-    def test_match(self):
-        code, out = run("--package", "requests==2.34.2", "--require-repo-match")
-        self.assertEqual(code, 0, out)
-        self.assertIn("attested-match", out)
+    def test_match_by_wheel_hash(self):
+        tmp = tempfile.mkdtemp()
+        try:
+            p = os.path.join(tmp, "requirements.txt")
+            with open(p, "w") as f:
+                f.write("requests==2.34.2 --hash=sha256:" + "c" * 64 + "\n")
+            code, out = run("--lock", p, "--require-repo-match")
+            self.assertEqual(code, 0, out)
+            self.assertIn("attested-match", out)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_bare_pin_checks_every_file(self):
+        code, out = run("--package", "requests==2.34.2", "--require-attestation")
+        self.assertEqual(code, 3, out)
+        self.assertIn("partly-attested", out)
+        self.assertIn("1 of 2 files attested", out)
+
+    def test_one_unknown_hash_among_known_ones(self):
+        tmp = tempfile.mkdtemp()
+        try:
+            p = os.path.join(tmp, "requirements.txt")
+            with open(p, "w") as f:
+                f.write("requests==2.34.2 --hash=sha256:" + "c" * 64 + " --hash=sha256:" + "d" * 64 + "\n")
+            code, out = run("--lock", p)
+            self.assertEqual(code, 1, out)
+            self.assertIn("1 of 2 hash(es)", out)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_pins_file_must_exist(self):
+        with self.assertRaises(SystemExit) as cm:
+            run("--package", "requests==2.34.2", "--pins", "/nonexistent/pins.json")
+        self.assertEqual(cm.exception.code, 2)
 
     def test_require_attestation(self):
         code, _ = run("--package", "litellm==1.106.2", "--require-attestation")
@@ -136,9 +177,34 @@ class TestVerdicts(unittest.TestCase):
         try:
             sp = os.path.join(tmp, "lib/python3.12/site-packages")
             fixtures.install_like_pip(sp, name="requests", version="2.34.2", payload=False)
+            with open(os.path.join(sp, "requests-2.34.2.dist-info", "METADATA"), "rb") as f:
+                digest = hashlib.sha256(f.read()).hexdigest()
+            ROUTES["https://pypi.org/pypi/requests/2.34.2/json"]["urls"][0]["core-metadata"] = {"sha256": digest}
             code, out = run("--env", tmp)
             self.assertEqual(code, 0, out)
             self.assertIn("attested-match", out)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_installed_metadata_differs(self):
+        tmp = tempfile.mkdtemp()
+        try:
+            sp = os.path.join(tmp, "site-packages")
+            fixtures.install_like_pip(sp, name="requests", version="2.34.2", payload=False)
+            ROUTES["https://pypi.org/pypi/requests/2.34.2/json"]["urls"][0]["core-metadata"] = {"sha256": "0" * 64}
+            code, out = run("--env", sp)
+            self.assertEqual(code, 1, out)
+            self.assertIn("metadata-differs", out)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_require_attestation_rejects_unknown_file(self):
+        tmp = tempfile.mkdtemp()
+        try:
+            sp = os.path.join(tmp, "site-packages")
+            fixtures.install_like_pip(sp, name="litellm", version="1.106.2", payload=False)
+            code, out = run("--env", sp, "--require-attestation")
+            self.assertEqual(code, 3, out)
         finally:
             shutil.rmtree(tmp)
 
@@ -161,6 +227,9 @@ class TestVerdicts(unittest.TestCase):
             code, out = run("--package", "litellm==1.106.2", "--pins", pins)
             self.assertEqual(code, 1)
             self.assertIn("PIN CHANGED", out)
+            # a pinned project that this run cannot confirm also alerts
+            code, out = run("--package", "litellm==1.107.0", "--pins", pins)
+            self.assertEqual(code, 1)
         finally:
             shutil.rmtree(tmp)
 

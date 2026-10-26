@@ -1,8 +1,7 @@
-litellm: 956 releases on PyPI, checked 2026-10-26T22:51:24+00:00
+litellm: 956 releases on PyPI, checked 2026-10-26T23:17:57+00:00
   no attest.  727 releases  0.1.0 (2023-07-27) .. 1.82.6 (2026-03-22)
   attested     15 releases  1.83.0 (2026-03-31) .. 1.83.14 (2026-04-26)
   no attest.  214 releases  1.84.0.dev1 (2026-04-29) .. 1.106.4 (2026-10-25)
-  publisher of 1.83.0: GitHub repository=BerriAI/project-releaser workflow=publish-litellm.yml environment=pypi-publish
-  publisher of 1.83.14: GitHub repository=BerriAI/project-releaser workflow=publish-litellm.yml environment=pypi-publish
+  publisher on 15 of 15 attested releases (1.83.0 .. 1.83.14): GitHub repository=BerriAI/project-releaser workflow=publish-litellm.yml environment=pypi-publish
   1.107.0: not on PyPI (removed on 21 Oct 2026)
-wrote results/litellm-attestation-history-20261026T225124Z.json
+wrote results/litellm-attestation-history-20261026T231757Z.json

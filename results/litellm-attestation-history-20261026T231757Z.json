@@ -1,6 +1,6 @@
 {
  "project": "litellm",
- "checked_utc": "2026-10-26T22:51:24+00:00",
+ "checked_utc": "2026-10-26T23:17:57+00:00",
  "releases_on_pypi": 956,
  "runs": [
   {
@@ -30,6 +30,175 @@
  ],
  "publishers": {
   "1.83.0": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.1": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.2": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.3": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.4": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.5": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.6": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.7": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.8": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.9": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.10": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.11": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.12": {
+   "publishers": [
+    {
+     "environment": "pypi-publish",
+     "kind": "GitHub",
+     "repository": "BerriAI/project-releaser",
+     "workflow": "publish-litellm.yml"
+    }
+   ],
+   "predicate_types": [
+    "https://docs.pypi.org/attestations/publish/v1"
+   ]
+  },
+  "1.83.13": {
    "publishers": [
     {
      "environment": "pypi-publish",

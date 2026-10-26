@@ -33,11 +33,14 @@ def categorize(p, resolved):
         return "no-repo-publisher"
     if not p.get("metadata_repos"):
         return "metadata-no-repo"
-    pubs = {resolved.get(r, r) for r in p["publisher_repos"]}
-    meta = {resolved.get(r, r) for r in p["metadata_repos"]}
+    def canon(r):  # an unresolved repository keeps its own name, so two errors never match
+        v = resolved.get(r, r)
+        return r if str(v).startswith("error:") else v
+    pubs = {canon(r) for r in p["publisher_repos"]}
+    meta = {canon(r) for r in p["metadata_repos"]}
     if pubs & meta:
         return "match-after-rename"
-    if all(str(resolved.get(r, "")).startswith("error:") for r in p["publisher_repos"]):
+    if all(resolved.get(r) == "error:404" for r in p["publisher_repos"]):
         return "separate-not-visible"
     return "separate-public"
 

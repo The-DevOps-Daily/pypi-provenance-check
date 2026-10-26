@@ -83,6 +83,12 @@ SITE_DIRS = ("site-packages", "dist-packages")
 SKIP_DIRS = {".git", "node_modules", "proc", "sys", "dev"}
 
 
+def walk_error(rep):
+    def onerror(err):
+        rep.add("incomplete", "unreadable", getattr(err, "filename", "?") or "?", str(err.strerror or err))
+    return onerror
+
+
 class Report:
     def __init__(self):
         self.findings = []
@@ -124,7 +130,7 @@ def find_site_dirs(roots, rep, explicit):
         if os.path.basename(root) in SITE_DIRS:
             found.append(root)
             continue
-        for cur, dirs, _files in os.walk(root, onerror=None):
+        for cur, dirs, _files in os.walk(root, onerror=walk_error(rep)):
             if os.path.basename(cur) in SITE_DIRS:
                 found.append(cur)
                 dirs[:] = []
@@ -253,8 +259,26 @@ def default_env_roots():
 
 # ------------------------------------------------------------------ lock
 
-REQ_PIN = re.compile(r"^\s*litellm(?:\[[^\]]*\])?\s*===?\s*1\.107\.0(?:\s|;|$|\\)", re.I | re.M)
-REQ_ANY = re.compile(r"^\s*litellm(?:\[[^\]]*\])?\s*(?:[;#\\]|$|[<>!~])", re.I | re.M)
+REQ_LINE = re.compile(r"^\s*litellm(?:\[[^\]]*\])?\s*(===|==)\s*([^\s;#\\,]+)", re.I | re.M)
+REQ_ANY = re.compile(r"^\s*litellm(?:\[[^\]]*\])?\s*(?:[;#\\]|$|[<>!~=])", re.I | re.M)
+RELEASE_ONLY = re.compile(r"^v?(\d+(?:\.\d+)*)$", re.I)
+
+
+def is_bad_version(op, ver):
+    """True if `op ver` selects exactly the 1.107.0 release (PEP 440 zero padding:
+    ==1.107 and ==1.107.0.0 are the same version). === compares strings."""
+    ver = ver.strip().lower()
+    if op == "===":
+        return ver == VERSION
+    if ver.endswith(".*"):
+        return False  # a prefix match is a range; reported as unpinned
+    m = RELEASE_ONLY.match(ver)
+    if not m:
+        return False  # pre, post, dev or local releases are other versions
+    parts = [int(x) for x in m.group(1).split(".")]
+    while len(parts) > 1 and parts[-1] == 0:
+        parts.pop()
+    return parts == [1, 107]
 
 
 def check_lock(path, rep):
@@ -282,13 +306,13 @@ def check_lock(path, rep):
         for key in ("package", "packages"):
             for p in doc.get(key) or []:
                 if isinstance(p, dict) and str(p.get("name", "")).lower() == "litellm" \
-                        and str(p.get("version", "")) == VERSION:
+                        and is_bad_version("==", str(p.get("version", ""))):
                     pinned = True
         for section in ("default", "develop"):
             spec = (doc.get(section) or {}).get("litellm") if isinstance(doc.get(section), dict) else None
-            if isinstance(spec, dict) and spec.get("version", "").lstrip("=") == VERSION:
+            if isinstance(spec, dict) and is_bad_version("==", spec.get("version", "").lstrip("=")):
                 pinned = True
-    if REQ_PIN.search(text):
+    if any(is_bad_version(op, ver) for op, ver in REQ_LINE.findall(text)):
         pinned = True
     if pinned:
         rep.add("hit", "lock-pin", path, f"pins litellm {VERSION}")
@@ -322,7 +346,7 @@ def scan_tar(fileobj_or_path, where, rep, depth=0):
         else:
             tf = tarfile.open(fileobj=fileobj_or_path, mode="r:*")
     except (tarfile.TarError, OSError, EOFError) as e:
-        rep.add("info", "unreadable-archive", where, f"not a readable tar: {e}")
+        rep.add("incomplete", "unreadable-archive", where, f"looks like an archive but could not be read: {e}")
         return
     with tf:
         members = tf.getmembers()
@@ -371,28 +395,35 @@ def scan_file(path, rep, max_size):
     except OSError as e:
         rep.add("incomplete", "unreadable", path, str(e))
         return
-    if head[:4] == b"PK\x03\x04":
-        digest = sha256_of(path)
+    is_zip = head[:4] == b"PK\x03\x04"
+    is_tar = head[:2] == b"\x1f\x8b" or head[257:262] == b"ustar"
+    if size <= max_size:
+        # one pass: the file's sha256 (a wheel or the sdist itself, or pip's http-v2
+        # .body copy) and the payload's member names (pip's older http cache wraps
+        # the wheel in a response record; zip member names are stored uncompressed)
+        h = hashlib.sha256()
+        tail, marker = b"", None
+        keep = max(len(m) for m in BYTE_MARKERS)
+        try:
+            with open(path, "rb") as f:
+                for chunk in iter(lambda: f.read(1 << 20), b""):
+                    h.update(chunk)
+                    if marker is None:
+                        buf = tail + chunk
+                        marker = next((m for m in BYTE_MARKERS if m in buf), None)
+                        tail = buf[-keep:]
+        except OSError as e:
+            rep.add("incomplete", "unreadable", path, str(e))
+            return
+        digest = h.hexdigest()
         if digest in ARTIFACT_SHA256:
             rep.add("hit", "artifact-hash", path, f"sha256 is {ARTIFACT_SHA256[digest]}")
+        if marker and not is_zip:
+            rep.add("hit", "cache-entry", path, f"contains the member name {marker.decode()}")
+    if is_zip:
         scan_zip(path, path, rep)
-        return
-    if head[:2] == b"\x1f\x8b" or head[257:262] == b"ustar":
+    elif is_tar:
         scan_tar(path, path, rep)
-        return
-    if size > max_size:
-        return
-    # pip's older http cache wraps the response body; search the raw bytes
-    tail = b""
-    keep = max(len(m) for m in BYTE_MARKERS)
-    with open(path, "rb") as f:
-        for chunk in iter(lambda: f.read(1 << 20), b""):
-            buf = tail + chunk
-            for m in BYTE_MARKERS:
-                if m in buf:
-                    rep.add("hit", "cache-entry", path, f"contains the member name {m.decode()}")
-                    return
-            tail = buf[-keep:]
 
 
 def scan_path(root, rep, max_size, explicit=True):
@@ -404,7 +435,7 @@ def scan_path(root, rep, max_size, explicit=True):
     if os.path.isfile(root):
         scan_file(root, rep, max_size)
         return
-    for cur, dirs, files in os.walk(root):
+    for cur, dirs, files in os.walk(root, onerror=walk_error(rep)):
         dirs[:] = [d for d in dirs if d not in SKIP_DIRS]
         for d in list(dirs):
             if d in (DIST_INFO, DATA_DIR):

@@ -9,10 +9,14 @@ that file's provenance from PyPI's Integrity API, and reports:
                        the release's own metadata (Project-URL) also names
   attested-other-repo  attested, but by a repository the metadata does not name
   attested-no-repo     attested by a publisher without a repository (Google Cloud)
+  partly-attested      some of the files checked have an attestation, some do not
   no-attestation       PyPI has no attestation for this file
   not-on-pypi          this version is not on PyPI (removed, never published,
                        or installed from another index)
   hash-not-on-pypi     a hash in your lock file matches no file of this release
+  metadata-differs     the installed METADATA is not the METADATA of the PyPI wheel
+                       with the same tags (PyPI publishes its sha256), so the
+                       installed files did not come from that wheel
   not-from-index       installed from a local path, URL or VCS (direct_url.json)
   file-unknown         installed wheel tags match no file of this release
   error                PyPI could not be reached for this distribution
@@ -23,9 +27,17 @@ yourself, use `pypi-attestations verify pypi --repository <url> pypi:<file>`.
 
 It never imports or runs code from the environment it checks.
 
-Exit codes: 0 ok, 1 alert (not-on-pypi, hash-not-on-pypi, or a pinned publisher
-changed), 2 usage error, 3 policy failure (--require-attestation or
---require-repo-match), 4 incomplete (network errors).
+For an installed wheel, the file is identified by its wheel tags and checked by
+the sha256 of its METADATA. That ties it to a PyPI wheel's metadata, not to every
+byte the wheel installed.
+
+Exit codes: 0 ok, 1 alert (not-on-pypi, hash-not-on-pypi, metadata-differs, or
+a pinned project whose publishers changed or could not be confirmed), 2 usage
+error, 3 policy failure (--require-attestation: anything not attested-*;
+--require-repo-match: anything not attested-match), 4 incomplete (network errors).
+
+Run it with python3 -I -S, so the interpreter does not process .pth files or
+sitecustomize from its own site-packages.
 
 Python 3.11+ standard library.
 """
@@ -33,11 +45,13 @@ import argparse
 import base64
 import email.parser
 import gzip
+import hashlib
 import itertools
 import json
 import os
 import re
 import sys
+import threading
 import time
 import tomllib
 import urllib.error
@@ -223,8 +237,9 @@ def installed_dists(site_packages):
         meta_path = os.path.join(d, "METADATA")
         if not os.path.isfile(meta_path):
             continue
-        with open(meta_path, encoding="utf-8", errors="replace") as f:
-            meta = email.parser.Parser().parse(f, headersonly=True)
+        with open(meta_path, "rb") as f:
+            raw_meta = f.read()
+        meta = email.parser.Parser().parsestr(raw_meta.decode("utf-8", "replace"), headersonly=True)
         tags = set()
         wheel_path = os.path.join(d, "WHEEL")
         if os.path.isfile(wheel_path):
@@ -240,6 +255,7 @@ def installed_dists(site_packages):
                 direct = "unreadable"
         out.append({"name": meta.get("Name"), "version": meta.get("Version"),
                     "wheel_tags": sorted(tags), "direct_url": direct,
+                    "metadata_sha256": hashlib.sha256(raw_meta).hexdigest(),
                     "source": os.path.join(site_packages, entry)})
     return out
 
@@ -303,6 +319,24 @@ def lock_entries(path):
 
 # ------------------------------------------------------------------ checking
 
+_SIMPLE = {}
+_SIMPLE_LOCK = threading.Lock()
+
+
+def provenance_presence(http, name):
+    """filename -> True/False for every file of the project, from one Simple JSON request."""
+    key = normalize(name)
+    with _SIMPLE_LOCK:
+        if key in _SIMPLE:
+            return _SIMPLE[key]
+    status, doc = http.get_json(f"{PYPI}/simple/{urllib.parse.quote(key)}/",
+                                accept="application/vnd.pypi.simple.v1+json")
+    presence = {f["filename"]: bool(f.get("provenance")) for f in (doc or {}).get("files", [])}
+    with _SIMPLE_LOCK:
+        _SIMPLE[key] = presence
+    return presence
+
+
 def check_one(http, dist):
     name, version = dist["name"], dist["version"]
     res = {"name": name, "version": version, "source": dist.get("source")}
@@ -317,13 +351,14 @@ def check_one(http, dist):
         files = rel.get("urls", [])
         res["metadata_repos"] = metadata_repos(rel.get("info", {}))
         # which files are "yours"
-        chosen = []
         if dist.get("hashes"):
             by_hash = {f["digests"]["sha256"]: f for f in files}
-            chosen = [by_hash[h] for h in dist["hashes"] if h in by_hash]
-            if not chosen:
-                res.update(status="hash-not-on-pypi", detail=f"{len(dist['hashes'])} hash(es)")
+            unknown = [h for h in dist["hashes"] if h not in by_hash]
+            if unknown:
+                res.update(status="hash-not-on-pypi",
+                           detail=f"{len(unknown)} of {len(dist['hashes'])} hash(es) match no PyPI file of this release")
                 return res
+            chosen = [by_hash[h] for h in dict.fromkeys(dist["hashes"])]
         elif dist.get("wheel_tags"):
             want = set(dist["wheel_tags"])
             chosen = [f for f in files if f["filename"].endswith(".whl")
@@ -332,14 +367,23 @@ def check_one(http, dist):
                 res.update(status="file-unknown",
                            detail="no PyPI wheel of this release has tags " + ",".join(sorted(want)))
                 return res
+            if dist.get("metadata_sha256"):
+                pypi_md = {(f.get("core-metadata") or {}).get("sha256") if isinstance(f.get("core-metadata"), dict)
+                           else None for f in chosen} - {None}
+                if pypi_md and dist["metadata_sha256"] not in pypi_md:
+                    res.update(status="metadata-differs",
+                               detail="installed METADATA does not match the PyPI wheel with these tags")
+                    return res
         else:  # a bare name==version pin: look at every file of the release
             chosen = files
+        presence = provenance_presence(http, name)
         res["files_checked"] = len(chosen)
-        provs = {}
-        for f in chosen[:8]:
-            provs[f["filename"]] = fetch_provenance(http, name, version, f["filename"])
-        attested = {fn: p for fn, p in provs.items() if p}
-        res["files"] = sorted(provs)
+        attested = {}
+        for f in chosen:
+            if presence.get(f["filename"]):
+                prov = fetch_provenance(http, name, version, f["filename"])
+                if prov:
+                    attested[f["filename"]] = prov
         res["files_attested"] = len(attested)
         if not attested:
             res["status"] = "no-attestation"
@@ -348,19 +392,23 @@ def check_one(http, dist):
         uniq = {json.dumps(p, sort_keys=True) for p in pubs}
         res["publishers"] = [json.loads(u) for u in sorted(uniq)]
         res["predicate_types"] = sorted({t for p in attested.values() for t in p["predicate_types"]})
-        repos = {publisher_repo(p) for p in pubs} - {None}
-        if not repos:
+        repos = {publisher_repo(p) for p in pubs}
+        if len(attested) < len(chosen):
+            res["status"] = "partly-attested"
+            res["detail"] = f"{len(attested)} of {len(chosen)} files attested"
+        elif repos == {None}:
             res["status"] = "attested-no-repo"
-        elif repos & set(res["metadata_repos"]):
+        elif None not in repos and repos <= set(res["metadata_repos"]):
             res["status"] = "attested-match"
         else:
             res["status"] = "attested-other-repo"
-        if len(attested) < len(provs):
-            res["detail"] = f"only {len(attested)} of {len(provs)} checked files attested"
         return res
     except RuntimeError as e:
         res.update(status="error", detail=str(e))
         return res
+
+
+ALERT_STATUSES = ("not-on-pypi", "hash-not-on-pypi", "metadata-differs")
 
 
 def pin_key(r):
@@ -368,6 +416,10 @@ def pin_key(r):
 
 
 def pin_value(r):
+    """What a pin records: the publishers seen, ["none"] when PyPI has no attestation,
+    None when this run could not tell (a pinned project then counts as changed)."""
+    if r["status"] == "partly-attested":
+        return [publisher_label(p) for p in r["publishers"]] + ["none"]
     if r.get("publishers"):
         return [publisher_label(p) for p in r["publishers"]]
     return ["none"] if r["status"] == "no-attestation" else None
@@ -383,7 +435,7 @@ def main(argv=None, http=None):
                     help="requirements.txt, uv.lock, pylock.toml, poetry.lock, pdm.lock or Pipfile.lock")
     ap.add_argument("--package", action="append", default=[], metavar="NAME==VERSION")
     ap.add_argument("--require-attestation", action="store_true",
-                    help="exit 3 when any distribution has no attestation")
+                    help="exit 3 unless every distribution is attested")
     ap.add_argument("--require-repo-match", action="store_true",
                     help="exit 3 unless every distribution is attested-match")
     ap.add_argument("--pins", metavar="FILE", help="alert when a publisher differs from this file")
@@ -422,20 +474,22 @@ def main(argv=None, http=None):
 
     alerts, policy = [], []
     pins_before = {}
-    if args.pins and os.path.exists(args.pins):
+    if args.pins:
+        if not os.path.exists(args.pins):
+            ap.error(f"--pins {args.pins} does not exist (create it with --write-pins)")
         with open(args.pins) as f:
             pins_before = json.load(f)
     for r in results:
-        if r["status"] in ("not-on-pypi", "hash-not-on-pypi"):
+        if r["status"] in ALERT_STATUSES:
             alerts.append(r)
         old = pins_before.get(pin_key(r))
         new = pin_value(r)
-        if old is not None and new is not None and old != new:
-            r["pin_changed"] = {"pinned": old, "now": new}
+        if old is not None and old != new:
+            r["pin_changed"] = {"pinned": old, "now": new or [r["status"]]}
             alerts.append(r)
-        if args.require_attestation and r["status"] in ("no-attestation",):
+        if args.require_attestation and not r["status"].startswith("attested-"):
             policy.append(r)
-        if args.require_repo_match and r["status"] not in ("attested-match",):
+        if args.require_repo_match and r["status"] != "attested-match":
             policy.append(r)
     if args.write_pins:
         pins = dict(pins_before)

@@ -17,3 +17,22 @@ Read between 26 and 27 October 2026.
 | [Docker: SLSA provenance attestations](https://docs.docker.com/build/metadata/attestations/slsa-provenance/) | `docker buildx imagetools inspect --format '{{ json .Provenance.SLSA }}'`; provenance is opt-in, `mode=min` by default |
 
 Measured here, not taken from a source: everything under `results/` and `examples/`.
+
+## Numbers and quotes the post takes from these sources
+
+| Value | Source |
+|---|---|
+| 10:08:29 change rejected, 10:08:34 protection overridden with commit `9cf97e9`; 10:46:39 staging run from `Berri-AI/litellm` at `20535d8f`; 11:11:18 production gate approved; 11:39:51 to 11:40:13 wheels uploaded; 11:46:56 images published; 11:53:49 to 11:54:01 run records deleted; 13:23 PyPI removal; 13:51 GHCR tags gone; 14:20 Docker Hub tags removed or repointed (all 21 Oct 2026, UTC) | LiteLLM incident post and attack-chain post |
+| issue #47826 opened 2026-10-21T12:06:41Z | GitHub API (`gh issue view 47826 -R BerriAI/litellm --json createdAt`) |
+| master key committed on 27 May 2026, used on 10 Oct from `69.48.229.143`; owner token read at 21:27:10 | attack-chain post |
+| "which signed and published the poisoned artifacts" | maintainer status update of 21 Oct 2026, 21:22 UTC, in issue #47826, and the incident post |
+| "The pipeline signed and published v1.107.0 built from the fork commit." | attack-chain post |
+| "use of insufficiently scoped keys combined with failure to revoke after accidental exposure" | maintainer comment of 24 Oct 2026 in issue #47826 |
+| "IMO this is a very good way to run LiteLLM, in general" (default-deny egress) | maintainer comment of 24 Oct 2026 in issue #47826 |
+| "there is no official v.1.107.0 source tag" | maintainer comment of 24 Oct 2026 in issue #47826 |
+| `litellm.dev` registered 2026-10-13; `domain.txt` empty since 2026-10-20 09:15Z | issue #47826 |
+| Socket alerts on the wheels at 11:46:30, seven minutes after publication (paraphrase) | Socket post |
+| Chainguard flagged 1.107.0 at 11:55, "16 minutes after the first wheel reached PyPI" | Chainguard post |
+| PyPI announced attestations on 14 Nov 2024 | https://blog.pypi.org/posts/2024-11-14-pypi-now-supports-digital-attestations/ |
+| PyPI verifies attestations against `request.oidc_publisher.attestation_identity`, the publisher that authenticated the upload | https://github.com/pypi/warehouse/blob/main/warehouse/attestations/services.py |
+| uv's GitHub Actions guide runs `astral-sh/attest-action` before `uv publish` | https://docs.astral.sh/uv/guides/integration/github/ |

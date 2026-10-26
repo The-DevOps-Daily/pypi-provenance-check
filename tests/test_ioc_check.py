@@ -155,6 +155,22 @@ class TestLock(Base):
         code, _ = run("lock", self.write("Pipfile.lock", text))
         self.assertEqual(code, 1)
 
+    def test_zero_padded_and_case(self):
+        for line in ("LiteLLM==1.107\n", "litellm == 1.107.0.0\n", "litellm==v1.107.0\n"):
+            code, out = run("lock", self.write("requirements.txt", line))
+            self.assertEqual(code, 1, line)
+
+    def test_other_spellings_are_not_the_release(self):
+        for line in ("litellm==1.107.0-rc1\n", "litellm==1.107.0.post1\n", "litellm===1.107\n",
+                     "litellm==1.107.0+local\n", "litellm==1.1070\n"):
+            code, out = run("lock", self.write("requirements.txt", line))
+            self.assertNotEqual(code, 1, line)
+
+    def test_prefix_match_is_unpinned(self):
+        code, out = run("lock", self.write("requirements.txt", "litellm==1.107.*\n"))
+        self.assertEqual(code, 0)
+        self.assertIn("without an exact pin", out)
+
     def test_clean_lock(self):
         text = 'version = 1\n[[package]]\nname = "litellm"\nversion = "1.106.2"\n'
         code, out = run("lock", self.write("uv.lock", text))
@@ -182,6 +198,30 @@ class TestScan(Base):
         finally:
             del ioc_check.ARTIFACT_SHA256[digest]
         self.assertIn("sha256 is fixture wheel", out)
+
+    def test_sdist_hash(self):
+        path = self.p("litellm-1.107.0.tar.gz")
+        with open(path, "wb") as f:
+            f.write(fixtures._tar_bytes({"litellm-1.107.0/pyproject.toml": b"[tool.maturin]\n"}, gz=True))
+        digest = ioc_check.sha256_of(path)
+        ioc_check.ARTIFACT_SHA256[digest] = "fixture sdist"
+        try:
+            code, out = run("scan", path)
+        finally:
+            del ioc_check.ARTIFACT_SHA256[digest]
+        self.assertEqual(code, 1, out)
+        self.assertIn("sha256 is fixture sdist", out)
+
+    @unittest.skipIf(os.geteuid() == 0, "root can read everything")
+    def test_unreadable_directory_is_incomplete(self):
+        d = self.p("cache", "locked")
+        os.makedirs(d)
+        os.chmod(d, 0)
+        try:
+            code, out = run("scan", self.p("cache"))
+        finally:
+            os.chmod(d, 0o755)
+        self.assertEqual(code, 4, out)
 
     def test_pip_http_v2_body(self):
         wheel = fixtures.build_wheel(self.tmp)

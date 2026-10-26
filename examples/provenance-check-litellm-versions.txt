@@ -1,5 +1,5 @@
-2026-10-26T23:05:17Z
-$ python3 -I provenance_check.py --package litellm==1.83.14 --package litellm==1.106.2 --package litellm==1.107.0
+2026-10-26T23:21:15Z
+$ python3 -I -S provenance_check.py --package litellm==1.83.14 --package litellm==1.106.2 --package litellm==1.107.0
 litellm==1.83.14  attested-other-repo  GitHub repository=BerriAI/project-releaser workflow=publish-litellm.yml environment=pypi-publish  (metadata: github.com/berriai/litellm)
 litellm==1.106.2  no-attestation     
 litellm==1.107.0  not-on-pypi        

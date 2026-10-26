@@ -1,0 +1,10 @@
+$ python3 -I -S ioc_check.py env /usr/lib/python3/dist-packages    (Debian 12 based test machine)
+INFO       pth-import       /usr/lib/python3/dist-packages/logilab_common-1.9.8-nspkg.pth
+                           runs at startup, installed by the python3-logilab-common system package
+INFO       pth-import       /usr/lib/python3/dist-packages/distutils-precedence.pth
+                           runs at startup, installed by the python3-setuptools system package
+INFO       searched         /usr/lib/python3/dist-packages
+                           1 site-packages directories checked
+
+no indicator of the litellm 1.107.0 payload found (exit 0)
+(exit 0)
