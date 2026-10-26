@@ -79,6 +79,7 @@ Survey run `results/survey-20261026T223625Z.json`, 26 October 2026, 22:36 UTC, 1
 
 - Of the 390 attested top-1,000 projects, 30 are attested by a Google Cloud service account (no repository), 19 by a different repository than the metadata names (for 14 of those projects the publishing repository is not publicly visible), and 7 have no GitHub or GitLab URL in their metadata.
 - 23 projects attested an earlier release and not their latest one (22 in the top 1,000, plus dspy). litellm is one of them.
+- `results/regression-workflows.txt` reads the publish workflows of those 23 projects as they are today: 12 upload with `uv publish`, which uploads attestations but does not create them; 2 (langchain-core, dspy) set `attestations: false` on the PyPA publish action; for the other 9 no upload step was found in a public workflow. This is how they publish now, not proof of why the attestations stopped.
 - Every attestation seen was a PyPI publish attestation (`https://docs.pypi.org/attestations/publish/v1`). None of the 396 attested projects uploaded the SLSA provenance predicate, the PyPI attestation type that records a source repository.
 - Method check: `results/spot-check-20261026T223625Z.txt` re-asked the Integrity API file by file for 40 random projects and the 23 above. 63 of 63 agree with the survey.
 
