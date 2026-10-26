@@ -104,6 +104,6 @@ litellm (`results/litellm-attestation-history.txt`, `examples/pypi-attestations-
 | `results/` | survey run, repo resolution, summary, spot check, litellm history, image provenance, tag list, publish steps of the projects that stopped attesting |
 | `examples/` | recorded runs of the scripts |
 | `scripts/` | `image_provenance.py` (BuildKit provenance from a registry, no layers, `--json` for the full record), `litellm_history.py`, `litellm_tags.sh`, `regression_workflows.py`, `spot_check.py`, `verify_with_pypi_attestations.sh`, and the two demos |
-| `tests/` | `python3 -I -S -m unittest discover -s tests` (55 tests, offline) |
+| `tests/` | `python3 -I -S -m unittest discover -s tests` (64 tests, offline) |
 
 MIT license.

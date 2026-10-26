@@ -397,7 +397,9 @@ def scan_tar_members(tf, where, rep, depth, size=None):
         head = f.read(512)
         f.seek(0)
         if head[:2] == b"\x1f\x8b" or head[257:262] == b"ustar":
-            scan_tar(f, f"{where}!{m.name}", rep, depth + 1)
+            # an uncompressed layer's declared size lets the truncation check run on it too
+            scan_tar(f, f"{where}!{m.name}", rep, depth + 1,
+                     size=None if head[:2] == b"\x1f\x8b" else m.size)
         elif head[:4] == b"\x28\xb5\x2f\xfd":
             rep.add("incomplete", "zstd-layer", f"{where}!{m.name}",
                     "zstd-compressed layer: this Python cannot read it")

@@ -257,6 +257,15 @@ class TestScan(Base):
         code, out = run("scan", path)
         self.assertEqual(code, 4, out)
 
+    def test_truncated_inner_layer_is_incomplete(self):
+        layer = fixtures._tar_bytes(fixtures.layer_files(infected=False))
+        outer = fixtures._tar_bytes({"manifest.json": b"[]", "abc/layer.tar": layer[:1300]})
+        path = self.p("img.tar")
+        with open(path, "wb") as f:
+            f.write(outer)
+        code, out = run("scan", path)
+        self.assertEqual(code, 4, out)
+
     @unittest.skipIf(os.geteuid() == 0, "root can read everything")
     def test_unreadable_pth_is_incomplete(self):
         sp = self.p("site-packages")
