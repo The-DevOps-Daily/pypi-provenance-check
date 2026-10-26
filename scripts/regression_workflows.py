@@ -45,6 +45,8 @@ def main():
     for reg in summary["regressions"]:
         repos = [r for r in survey[reg["project"]].get("metadata_repos", []) if r.startswith("github.com/")]
         print(f"\n{reg['project']} {reg['latest_version']} (last attested {reg['last_attested_version']})")
+        if not repos:
+            print("  no GitHub repository in the metadata: not inspected")
         for repo in repos[:2]:
             owner_repo = repo.split("/", 1)[1]
             if owner_repo in seen:

@@ -1,4 +1,4 @@
-checked 2026-10-26T23:00:06+00:00
+checked 2026-10-26T23:23:02+00:00
 
 annotated-doc 0.0.5 (last attested 0.0.4)
   github.com/fastapi/annotated-doc publish.yml: uv publish
@@ -26,6 +26,7 @@ litellm 1.106.4 (last attested 1.83.14)
   github.com/berriai/litellm: no PyPI upload step found in .github/workflows
 
 databricks-sdk 0.157.0 (last attested 0.102.0)
+  no GitHub repository in the metadata: not inspected
 
 fastmcp 4.1.4 (last attested 0.2.0)
   github.com/prefecthq/fastmcp publish-fastmcp-remote.yml: uv publish -v dist/fastmcp_remote-*.tar.gz dist/fastmcp_remote-*.whl
@@ -34,6 +35,7 @@ fastmcp 4.1.4 (last attested 0.2.0)
   github.com/prefecthq/fastmcp publish-fastmcp.yml: uv publish -v dist/fastmcp-*.tar.gz dist/fastmcp-*.whl
 
 rich-toolkit 0.20.6 (last attested 0.14.9)
+  no GitHub repository in the metadata: not inspected
 
 fastapi-cli 0.0.32 (last attested 0.0.20)
   github.com/fastapi/fastapi-cli publish.yml: uv publish
