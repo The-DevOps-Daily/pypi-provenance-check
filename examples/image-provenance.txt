@@ -1,0 +1,50 @@
+2026-10-26T23:08:43Z
+$ python3 -I scripts/image_provenance.py ghcr.io/berriai/litellm:v1.106.2 ghcr.io/berriai/litellm-database:v1.106.2 ghcr.io/berriai/litellm-non_root:v1.106.2 docker.io/litellm/litellm:v1.106.2 ghcr.io/berriai/litellm:v1.107.0 ghcr.io/berriai/litellm@sha256:bd1aeee4... ghcr.io/berriai/litellm-database@sha256:24581ddc... ghcr.io/berriai/litellm-non_root@sha256:645a67d8...
+ghcr.io/berriai/litellm:v1.106.2  index sha256:7294b90f868c...
+  linux/arm64  vcs:source   https://github.com/BerriAI/litellm
+               vcs:revision 49943cd52ea46aacf8db2e5cb2b890d580fe9bb4
+               builder      https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1
+               workflow     BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main (d687b69)
+               inputs       allow_republish=false, dry_run=false, git_ref=49943cd52ea46aacf8db2e5cb2b890d580fe9bb4, release_type=stable, repo=litellm
+  linux/amd64  vcs:source   https://github.com/BerriAI/litellm
+               vcs:revision 49943cd52ea46aacf8db2e5cb2b890d580fe9bb4
+               builder      https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1
+               workflow     BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main (d687b69)
+               inputs       allow_republish=false, dry_run=false, git_ref=49943cd52ea46aacf8db2e5cb2b890d580fe9bb4, release_type=stable, repo=litellm
+ghcr.io/berriai/litellm-database:v1.106.2  index sha256:35f2cec3a14b...
+  linux/arm64  vcs:source   https://github.com/BerriAI/litellm
+               vcs:revision 49943cd52ea46aacf8db2e5cb2b890d580fe9bb4
+               builder      https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1
+               workflow     BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main (d687b69)
+               inputs       allow_republish=false, dry_run=false, git_ref=49943cd52ea46aacf8db2e5cb2b890d580fe9bb4, release_type=stable, repo=litellm
+  linux/amd64  vcs:source   https://github.com/BerriAI/litellm
+               vcs:revision 49943cd52ea46aacf8db2e5cb2b890d580fe9bb4
+               builder      https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1
+               workflow     BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main (d687b69)
+               inputs       allow_republish=false, dry_run=false, git_ref=49943cd52ea46aacf8db2e5cb2b890d580fe9bb4, release_type=stable, repo=litellm
+ghcr.io/berriai/litellm-non_root:v1.106.2  index sha256:07fabea33dfc...
+  linux/amd64  vcs:source   https://github.com/BerriAI/litellm
+               vcs:revision 49943cd52ea46aacf8db2e5cb2b890d580fe9bb4
+               builder      https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1
+               workflow     BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main (d687b69)
+               inputs       allow_republish=false, dry_run=false, git_ref=49943cd52ea46aacf8db2e5cb2b890d580fe9bb4, release_type=stable, repo=litellm
+  linux/arm64  vcs:source   https://github.com/BerriAI/litellm
+               vcs:revision 49943cd52ea46aacf8db2e5cb2b890d580fe9bb4
+               builder      https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1
+               workflow     BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main (d687b69)
+               inputs       allow_republish=false, dry_run=false, git_ref=49943cd52ea46aacf8db2e5cb2b890d580fe9bb4, release_type=stable, repo=litellm
+docker.io/litellm/litellm:v1.106.2  index sha256:7294b90f868c...
+  linux/arm64  vcs:source   https://github.com/BerriAI/litellm
+               vcs:revision 49943cd52ea46aacf8db2e5cb2b890d580fe9bb4
+               builder      https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1
+               workflow     BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main (d687b69)
+               inputs       allow_republish=false, dry_run=false, git_ref=49943cd52ea46aacf8db2e5cb2b890d580fe9bb4, release_type=stable, repo=litellm
+  linux/amd64  vcs:source   https://github.com/BerriAI/litellm
+               vcs:revision 49943cd52ea46aacf8db2e5cb2b890d580fe9bb4
+               builder      https://github.com/BerriAI/project-releaser/actions/runs/39574962801/attempts/1
+               workflow     BerriAI/project-releaser/.github/workflows/stage.yml@refs/heads/main (d687b69)
+               inputs       allow_republish=false, dry_run=false, git_ref=49943cd52ea46aacf8db2e5cb2b890d580fe9bb4, release_type=stable, repo=litellm
+ghcr.io/berriai/litellm:v1.107.0  HTTP 404
+ghcr.io/berriai/litellm@sha256:bd1aeee419ea36da9aa2b657288da4101887be468f020ac63d22ba6ed84a3ea5  HTTP 404
+ghcr.io/berriai/litellm-database@sha256:24581ddc30767f16ecb69d2b0517556f2cd7dea56971adb42a3d1beb97d69523  HTTP 404
+ghcr.io/berriai/litellm-non_root@sha256:645a67d810628252d63df85dcc8824c58bcc77cf8383f4d3e6321f0ccc3ce9e4  HTTP 404

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Read the BuildKit provenance attached to a container image, without pulling layers.
 
-    python3 -I scripts/image_provenance.py ghcr.io/berriai/litellm:v1.106.2 [more refs...]
+    python3 -I scripts/image_provenance.py [--json] ghcr.io/berriai/litellm:v1.106.2 [more refs...]
 
 For each reference it fetches the image index (a few KB of JSON), finds the
 attestation manifests BuildKit attaches (vnd.docker.reference.type =
@@ -104,10 +104,26 @@ def inspect(ref):
 
 
 def main():
-    if len(sys.argv) < 2:
+    args = [a for a in sys.argv[1:] if a != "--json"]
+    if not args:
         sys.exit(__doc__)
-    results = [inspect(ref) for ref in sys.argv[1:]]
-    print(json.dumps(results, indent=1))
+    results = [inspect(ref) for ref in args]
+    if "--json" in sys.argv:
+        print(json.dumps(results, indent=1))
+        return
+    for r in results:
+        if r["status"] != "ok":
+            print(f"{r['ref']}  {r['status']}")
+            continue
+        print(f"{r['ref']}  index {r['index_digest'][:19]}...")
+        for p in r["platforms"]:
+            inputs = ", ".join(f"{k}={v}" for k, v in sorted((p["dispatch_inputs"] or {}).items()))
+            print(f"  {p['platform']:<12} vcs:source   {p['vcs_source']}")
+            print(f"  {'':<12} vcs:revision {p['vcs_revision']}")
+            print(f"  {'':<12} builder      {p['builder']}")
+            print(f"  {'':<12} workflow     {p['workflow_ref']} ({(p['workflow_sha'] or '')[:7]})")
+            if inputs:
+                print(f"  {'':<12} inputs       {inputs}")
 
 
 if __name__ == "__main__":

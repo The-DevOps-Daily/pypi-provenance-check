@@ -83,7 +83,7 @@ Survey run `results/survey-20261026T223625Z.json`, 26 October 2026, 22:36 UTC, 1
 - Every attestation seen was a PyPI publish attestation (`https://docs.pypi.org/attestations/publish/v1`). None of the 396 attested projects uploaded the SLSA provenance predicate, the PyPI attestation type that records a source repository.
 - Method check: `results/spot-check-20261026T223625Z.txt` re-asked the Integrity API file by file for 40 random projects and the 23 above. 63 of 63 agree with the survey.
 
-litellm (`results/litellm-attestation-history.txt`, `examples/pypi-attestations-verify.txt`, `results/image-provenance-20261026T225151Z.json`):
+litellm (`results/litellm-attestation-history.txt`, `examples/pypi-attestations-verify.txt`, `examples/image-provenance.txt`, `results/image-provenance-20261026T225151Z.json`):
 
 - 956 releases on PyPI. 15 carry attestations: 1.83.0 to 1.83.14, 31 March to 26 April 2026. None of the 214 releases since (1.84.0.dev1 on 29 April to 1.106.4 on 25 October) do, including 1.106.2, built by the same pipeline an hour before 1.107.0.
 - Those 15 name the publisher `BerriAI/project-releaser`, workflow `publish-litellm.yml`, environment `pypi-publish`. `pypi-attestations verify pypi --repository https://github.com/BerriAI/litellm` fails on 1.83.14; with `--repository https://github.com/BerriAI/project-releaser` it passes.
@@ -100,6 +100,7 @@ litellm (`results/litellm-attestation-history.txt`, `examples/pypi-attestations-
 | `data/` | the fixed top-1,000 snapshot |
 | `results/` | survey run, repo resolution, summary, spot check, litellm history, image provenance, tag list, publish steps of the projects that stopped attesting |
 | `examples/` | recorded runs of the scripts |
+| `scripts/` | `image_provenance.py` (BuildKit provenance from a registry, no layers, `--json` for the full record), `litellm_history.py`, `litellm_tags.sh`, `regression_workflows.py`, `spot_check.py`, `verify_with_pypi_attestations.sh`, and the two demos |
 | `tests/` | `python3 -I -S -m unittest discover -s tests` (45 tests, offline) |
 
 MIT license.
