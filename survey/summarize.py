@@ -43,8 +43,10 @@ def categorize(p, resolved):
         return "match-after-rename"
     if all(resolved.get(r) == "error:404" for r in p["publisher_repos"]):
         return "separate-not-visible"
-    github_side = [r for r in p["publisher_repos"] + p["metadata_repos"] if r.startswith("github.com/")]
-    if any(not str(resolved.get(r, "")).startswith("github.com/") for r in github_side):
+    # every publisher repo (the resolver only knows GitHub, so a GitLab one stays unresolved)
+    # and every GitHub repo in the metadata must have resolved before calling them different
+    side = p["publisher_repos"] + [r for r in p["metadata_repos"] if r.startswith("github.com/")]
+    if any(not str(resolved.get(r, "")).startswith("github.com/") for r in side):
         return "separate-unresolved"  # a lookup on either side failed or never ran: do not guess
     return "separate-public"
 
