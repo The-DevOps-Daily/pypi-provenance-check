@@ -254,7 +254,7 @@ def installed_dists(site_packages):
             except (OSError, ValueError):
                 direct = "unreadable"
         out.append({"name": meta.get("Name"), "version": meta.get("Version"),
-                    "wheel_tags": sorted(tags), "direct_url": direct,
+                    "installed": True, "wheel_tags": sorted(tags), "direct_url": direct,
                     "metadata_sha256": hashlib.sha256(raw_meta).hexdigest(),
                     "source": os.path.join(site_packages, entry)})
     return out
@@ -359,21 +359,27 @@ def check_one(http, dist):
                            detail=f"{len(unknown)} of {len(dist['hashes'])} hash(es) match no PyPI file of this release")
                 return res
             chosen = [by_hash[h] for h in dict.fromkeys(dist["hashes"])]
-        elif dist.get("wheel_tags"):
-            want = set(dist["wheel_tags"])
+        elif dist.get("installed"):
+            want = set(dist.get("wheel_tags") or [])
+            if not want:
+                res.update(status="file-unknown", detail="no WHEEL tags recorded in the installed .dist-info")
+                return res
             chosen = [f for f in files if f["filename"].endswith(".whl")
                       and wheel_tags_from_filename(f["filename"]) == want]
             if not chosen:
                 res.update(status="file-unknown",
                            detail="no PyPI wheel of this release has tags " + ",".join(sorted(want)))
                 return res
-            if dist.get("metadata_sha256"):
-                pypi_md = {(f.get("core-metadata") or {}).get("sha256") if isinstance(f.get("core-metadata"), dict)
-                           else None for f in chosen} - {None}
-                if pypi_md and dist["metadata_sha256"] not in pypi_md:
-                    res.update(status="metadata-differs",
-                               detail="installed METADATA does not match the PyPI wheel with these tags")
-                    return res
+            pypi_md = {f["core-metadata"].get("sha256") for f in chosen
+                       if isinstance(f.get("core-metadata"), dict)} - {None}
+            if not pypi_md:
+                res.update(status="file-unknown",
+                           detail="PyPI publishes no METADATA hash for this wheel, so the install cannot be tied to it")
+                return res
+            if dist.get("metadata_sha256") not in pypi_md:
+                res.update(status="metadata-differs",
+                           detail="installed METADATA does not match the PyPI wheel with these tags")
+                return res
         else:  # a bare name==version pin: look at every file of the release
             chosen = files
         presence = provenance_presence(http, name)
@@ -463,7 +469,8 @@ def main(argv=None, http=None):
 
     seen, unique = set(), []
     for d in dists:
-        key = (normalize(d["name"] or ""), d["version"], tuple(d.get("hashes") or ()), tuple(d.get("wheel_tags") or ()))
+        key = (normalize(d["name"] or ""), d["version"], tuple(d.get("hashes") or ()),
+               tuple(d.get("wheel_tags") or ()), d.get("metadata_sha256"), d.get("direct_url"))
         if key not in seen and d["name"] and d["version"]:
             seen.add(key)
             unique.append(d)

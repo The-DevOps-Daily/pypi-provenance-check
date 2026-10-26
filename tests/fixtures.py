@@ -90,7 +90,7 @@ def _tar_bytes(files, gz=False):
             info.size = len(d)
             tf.addfile(info, io.BytesIO(d))
     raw = buf.getvalue()
-    return gzip.compress(raw) if gz else raw
+    return gzip.compress(raw, mtime=0) if gz else raw
 
 
 def layer_files(infected=True):

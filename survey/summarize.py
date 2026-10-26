@@ -17,6 +17,7 @@ CATEGORIES = [
     ("match-after-rename", "attested, same repo after a rename or transfer"),
     ("separate-public", "attested from a different public repo"),
     ("separate-not-visible", "attested from a repo that is not publicly visible"),
+    ("separate-unresolved", "attested from a different repo that could not be resolved"),
     ("metadata-no-repo", "attested, but the metadata names no GitHub or GitLab repo"),
     ("no-repo-publisher", "attested by a Google Cloud service account (no repo)"),
     ("none", "no attestation on the latest release"),
@@ -42,6 +43,8 @@ def categorize(p, resolved):
         return "match-after-rename"
     if all(resolved.get(r) == "error:404" for r in p["publisher_repos"]):
         return "separate-not-visible"
+    if any(not str(resolved.get(r, "")).startswith("github.com/") for r in p["publisher_repos"]):
+        return "separate-unresolved"  # lookup failed or never ran: do not guess
     return "separate-public"
 
 
@@ -91,7 +94,7 @@ def main():
         key=lambda p: (p["rank"] is None, p["rank"] or 0, p["project"]))
     partial = [p for p in projects if 0 < p["latest_files_attested"] < p["latest_files"]]
     separate = sorted((p for p in projects if categorize(p, resolved) in
-                       ("separate-public", "separate-not-visible", "metadata-no-repo",
+                       ("separate-public", "separate-not-visible", "separate-unresolved", "metadata-no-repo",
                         "match-after-rename")),
                       key=lambda p: (p["rank"] is None, p["rank"] or 0))
     predicate_types = {}

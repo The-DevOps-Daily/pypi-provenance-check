@@ -11,6 +11,7 @@
     "match-after-rename": 5,
     "separate-public": 5,
     "separate-not-visible": 14,
+    "separate-unresolved": 0,
     "metadata-no-repo": 7,
     "no-repo-publisher": 30,
     "none": 610
@@ -27,6 +28,7 @@
     "match-after-rename": 1,
     "separate-public": 2,
     "separate-not-visible": 0,
+    "separate-unresolved": 0,
     "metadata-no-repo": 0,
     "no-repo-publisher": 2,
     "none": 40
@@ -43,6 +45,7 @@
     "match-after-rename": 2,
     "separate-public": 3,
     "separate-not-visible": 1,
+    "separate-unresolved": 0,
     "metadata-no-repo": 3,
     "no-repo-publisher": 15,
     "none": 238
@@ -59,6 +62,7 @@
     "match-after-rename": 2,
     "separate-public": 0,
     "separate-not-visible": 13,
+    "separate-unresolved": 0,
     "metadata-no-repo": 4,
     "no-repo-publisher": 13,
     "none": 332
@@ -75,6 +79,7 @@
     "match-after-rename": 5,
     "separate-public": 5,
     "separate-not-visible": 14,
+    "separate-unresolved": 0,
     "metadata-no-repo": 7,
     "no-repo-publisher": 30,
     "none": 475
@@ -91,6 +96,7 @@
     "match-after-rename": 0,
     "separate-public": 0,
     "separate-not-visible": 0,
+    "separate-unresolved": 0,
     "metadata-no-repo": 1,
     "no-repo-publisher": 1,
     "none": 31

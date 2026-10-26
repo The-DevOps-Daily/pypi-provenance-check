@@ -166,6 +166,20 @@ class TestLock(Base):
             code, out = run("lock", self.write("requirements.txt", line))
             self.assertNotEqual(code, 1, line)
 
+    def test_zero_epoch(self):
+        code, _ = run("lock", self.write("requirements.txt", "litellm==0!1.107.0\n"))
+        self.assertEqual(code, 1)
+
+    def test_pipfile_keeps_the_operator(self):
+        text = '{"default": {"litellm": {"version": "===1.107"}}, "develop": {}}'
+        code, _ = run("lock", self.write("Pipfile.lock", text))
+        self.assertEqual(code, 0)
+
+    def test_safe_exact_pin_is_not_called_unpinned(self):
+        code, out = run("lock", self.write("requirements.txt", "litellm==1.106.2\n"))
+        self.assertEqual(code, 0)
+        self.assertNotIn("without an exact pin", out)
+
     def test_prefix_match_is_unpinned(self):
         code, out = run("lock", self.write("requirements.txt", "litellm==1.107.*\n"))
         self.assertEqual(code, 0)
@@ -221,6 +235,40 @@ class TestScan(Base):
             code, out = run("scan", self.p("cache"))
         finally:
             os.chmod(d, 0o755)
+        self.assertEqual(code, 4, out)
+
+    def test_truncated_wheel_is_incomplete(self):
+        path = fixtures.build_wheel(self.tmp)
+        with open(path, "rb") as f:
+            data = f.read()
+        with open(path, "wb") as f:
+            f.write(data[: len(data) // 3])
+        code, out = run("scan", path)
+        self.assertIn(code, (1, 4), out)  # the member-name bytes may survive; never a clean 0
+        self.assertIn("could not be read", out)
+
+    def test_truncated_tar_is_incomplete(self):
+        path = self.p("img.tar")
+        fixtures.build_docker_save(path, infected=False)
+        with open(path, "rb") as f:
+            data = f.read()
+        with open(path, "wb") as f:
+            f.write(data[:1500])
+        code, out = run("scan", path)
+        self.assertEqual(code, 4, out)
+
+    @unittest.skipIf(os.geteuid() == 0, "root can read everything")
+    def test_unreadable_pth_is_incomplete(self):
+        sp = self.p("site-packages")
+        os.makedirs(sp)
+        pth = os.path.join(sp, "zz.pth")
+        with open(pth, "w") as f:
+            f.write("import base64\n")
+        os.chmod(pth, 0)
+        try:
+            code, out = run("env", sp)
+        finally:
+            os.chmod(pth, 0o644)
         self.assertEqual(code, 4, out)
 
     def test_pip_http_v2_body(self):

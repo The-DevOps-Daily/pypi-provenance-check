@@ -198,6 +198,37 @@ class TestVerdicts(unittest.TestCase):
         finally:
             shutil.rmtree(tmp)
 
+    def test_installed_without_pypi_metadata_hash_is_unknown(self):
+        tmp = tempfile.mkdtemp()
+        try:
+            sp = os.path.join(tmp, "site-packages")
+            fixtures.install_like_pip(sp, name="requests", version="2.34.2", payload=False)
+            ROUTES["https://pypi.org/pypi/requests/2.34.2/json"]["urls"][0].pop("core-metadata", None)
+            code, out = run("--env", sp, "--require-attestation")
+            self.assertEqual(code, 3, out)
+            self.assertIn("file-unknown", out)
+        finally:
+            shutil.rmtree(tmp)
+
+    def test_two_copies_with_different_metadata_are_both_checked(self):
+        tmp = tempfile.mkdtemp()
+        try:
+            a = os.path.join(tmp, "a", "site-packages")
+            b = os.path.join(tmp, "b", "site-packages")
+            fixtures.install_like_pip(a, name="requests", version="2.34.2", payload=False)
+            fixtures.install_like_pip(b, name="requests", version="2.34.2", payload=False)
+            with open(os.path.join(b, "requests-2.34.2.dist-info", "METADATA"), "a") as f:
+                f.write("X-Changed: yes\n")
+            with open(os.path.join(a, "requests-2.34.2.dist-info", "METADATA"), "rb") as f:
+                good = hashlib.sha256(f.read()).hexdigest()
+            ROUTES["https://pypi.org/pypi/requests/2.34.2/json"]["urls"][0]["core-metadata"] = {"sha256": good}
+            code, out = run("--env", a, "--env", b)
+            self.assertEqual(code, 1, out)
+            self.assertIn("metadata-differs", out)
+            self.assertIn("attested-match", out)
+        finally:
+            shutil.rmtree(tmp)
+
     def test_require_attestation_rejects_unknown_file(self):
         tmp = tempfile.mkdtemp()
         try:

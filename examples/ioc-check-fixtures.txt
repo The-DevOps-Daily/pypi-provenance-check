@@ -38,13 +38,13 @@ INDICATORS FOUND: treat this host as compromised and rotate what it could reach 
 (exit 1)
 
 $ python3 -I -S ioc_check.py scan fx/image-oci.tar
-HIT        image-layer      fx/image-oci.tar!blobs/sha256/00e0d7a63109481c488e608dc4aa66b1689def063b4c5542824c1a0268b8ab84
+HIT        image-layer      fx/image-oci.tar!blobs/sha256/241240496b8e840df2683b5596f8f851544908871dc3abc8a647196733b527cd
                            contains app/.venv/lib/python3.13/site-packages/cook.pth
-HIT        image-layer      fx/image-oci.tar!blobs/sha256/00e0d7a63109481c488e608dc4aa66b1689def063b4c5542824c1a0268b8ab84
+HIT        image-layer      fx/image-oci.tar!blobs/sha256/241240496b8e840df2683b5596f8f851544908871dc3abc8a647196733b527cd
                            contains app/.venv/lib/python3.13/site-packages/cook.py
-HIT        image-layer      fx/image-oci.tar!blobs/sha256/00e0d7a63109481c488e608dc4aa66b1689def063b4c5542824c1a0268b8ab84
+HIT        image-layer      fx/image-oci.tar!blobs/sha256/241240496b8e840df2683b5596f8f851544908871dc3abc8a647196733b527cd
                            contains app/.venv/lib/python3.13/site-packages/litellm-1.107.0.dist-info/METADATA
-WARN       image-layer      fx/image-oci.tar!blobs/sha256/00e0d7a63109481c488e608dc4aa66b1689def063b4c5542824c1a0268b8ab84
+WARN       image-layer      fx/image-oci.tar!blobs/sha256/241240496b8e840df2683b5596f8f851544908871dc3abc8a647196733b527cd
                            contains app/.venv/lib/python3.13/site-packages/sitecustomize.py (check which package owns it)
 INFO       searched         fx/image-oci.tar
                            scanned

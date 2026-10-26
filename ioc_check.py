@@ -39,6 +39,7 @@ import sys
 import tarfile
 import tomllib
 import zipfile
+import zlib
 
 VERSION = "1.107.0"
 DIST_INFO = f"litellm-{VERSION}.dist-info"
@@ -109,6 +110,14 @@ class Report:
         return 0
 
 
+def safe_sha256(path, rep):
+    try:
+        return sha256_of(path)
+    except OSError as e:
+        rep.add("incomplete", "unreadable", path, str(e))
+        return None
+
+
 def sha256_of(path):
     h = hashlib.sha256()
     with open(path, "rb") as f:
@@ -141,25 +150,28 @@ def find_site_dirs(roots, rep, explicit):
     return sorted(set(found))
 
 
-def record_owners(sp):
-    """Map installed path (relative to site-packages) -> distribution, from RECORD files."""
+def record_owners(sp, rep=None):
+    """Map installed path (relative to site-packages) -> distribution, from RECORD files.
+    A RECORD that cannot be read is reported as incomplete; the others still count."""
     owners = {}
     for entry in os.listdir(sp):
         if entry.endswith(".dist-info"):
-            rec = os.path.join(sp, entry, "RECORD")
-            if os.path.isfile(rec):
-                with open(rec, encoding="utf-8", errors="replace") as f:
-                    for line in f:
-                        rel = line.split(",", 1)[0].strip()
-                        if rel:
-                            owners[os.path.normpath(rel)] = entry[: -len(".dist-info")]
+            listing, base, dist = os.path.join(sp, entry, "RECORD"), "", entry[: -len(".dist-info")]
         elif entry.endswith(".egg-info"):
-            listing = os.path.join(sp, entry, "installed-files.txt")
-            if os.path.isfile(listing):
-                with open(listing, encoding="utf-8", errors="replace") as f:
-                    for line in f:
-                        rel = os.path.normpath(os.path.join(entry, line.strip()))
-                        owners[rel] = entry[: -len(".egg-info")]
+            listing, base, dist = os.path.join(sp, entry, "installed-files.txt"), entry, entry[: -len(".egg-info")]
+        else:
+            continue
+        if not os.path.isfile(listing):
+            continue
+        try:
+            with open(listing, encoding="utf-8", errors="replace") as f:
+                for line in f:
+                    rel = line.split(",", 1)[0].strip() if not base else line.strip()
+                    if rel:
+                        owners[os.path.normpath(os.path.join(base, rel))] = dist
+        except OSError as e:
+            if rep is not None:
+                rep.add("incomplete", "unreadable", listing, f"cannot read: {e}")
     return owners
 
 
@@ -197,7 +209,7 @@ def check_site_dir(sp, rep):
     except OSError as e:
         rep.add("incomplete", "unreadable", sp, str(e))
         return
-    owners = record_owners(sp)
+    owners = record_owners(sp, rep)
     if DIST_INFO in entries:
         rep.add("hit", "installed", os.path.join(sp, DIST_INFO), f"litellm {VERSION} is installed")
     for e in entries:
@@ -206,18 +218,23 @@ def check_site_dir(sp, rep):
     for name in ("cook.pth", "cook.py"):
         p = os.path.join(sp, name)
         if os.path.isfile(p):
-            digest = sha256_of(p)
+            digest = safe_sha256(p, rep)
             same = " (sha256 matches the published payload)" if digest in PAYLOAD_SHA256 else ""
             rep.add("hit", "payload-file", p, f"{name} in site-packages root{same}; owner: "
                     f"{owners.get(name, 'no RECORD lists it')}")
     pyc_dir = os.path.join(sp, "__pycache__")
-    if os.path.isdir(pyc_dir):
-        for e in os.listdir(pyc_dir):
+    try:
+        pyc_entries = os.listdir(pyc_dir) if os.path.isdir(pyc_dir) else []
+    except OSError as e:
+        rep.add("incomplete", "unreadable", pyc_dir, str(e))
+        pyc_entries = []
+    if pyc_entries:
+        for e in pyc_entries:
             if e.startswith("cook.") and e.endswith(".pyc"):
                 rep.add("hit", "payload-file", os.path.join(pyc_dir, e), "compiled cook module")
     sc = os.path.join(sp, "sitecustomize.py")
     if os.path.isfile(sc):
-        digest = sha256_of(sc)
+        digest = safe_sha256(sc, rep)
         owner = owners.get("sitecustomize.py")
         if digest in PAYLOAD_SHA256:
             rep.add("hit", "payload-file", sc, "sitecustomize.py matches the published payload sha256")
@@ -235,6 +252,9 @@ def check_site_dir(sp, rep):
             continue
         p = os.path.join(sp, e)
         lines = executable_pth_lines(p)
+        if lines is None:
+            rep.add("incomplete", "unreadable", p, ".pth file could not be read")
+            continue
         if not lines:
             continue
         owner = owners.get(e)
@@ -261,7 +281,7 @@ def default_env_roots():
 
 REQ_LINE = re.compile(r"^\s*litellm(?:\[[^\]]*\])?\s*(===|==)\s*([^\s;#\\,]+)", re.I | re.M)
 REQ_ANY = re.compile(r"^\s*litellm(?:\[[^\]]*\])?\s*(?:[;#\\]|$|[<>!~=])", re.I | re.M)
-RELEASE_ONLY = re.compile(r"^v?(\d+(?:\.\d+)*)$", re.I)
+RELEASE_ONLY = re.compile(r"^v?(?:0+!)?(\d+(?:\.\d+)*)$", re.I)  # an explicit 0 epoch is the default
 
 
 def is_bad_version(op, ver):
@@ -310,13 +330,15 @@ def check_lock(path, rep):
                     pinned = True
         for section in ("default", "develop"):
             spec = (doc.get(section) or {}).get("litellm") if isinstance(doc.get(section), dict) else None
-            if isinstance(spec, dict) and is_bad_version("==", spec.get("version", "").lstrip("=")):
+            m = re.match(r"^\s*(===|==)\s*(.+)$", spec.get("version", "")) if isinstance(spec, dict) else None
+            if m and is_bad_version(m.group(1), m.group(2)):
                 pinned = True
     if any(is_bad_version(op, ver) for op, ver in REQ_LINE.findall(text)):
         pinned = True
+    exact = {m.start() for m in REQ_LINE.finditer(text) if not m.group(2).endswith(".*")}
     if pinned:
         rep.add("hit", "lock-pin", path, f"pins litellm {VERSION}")
-    elif REQ_ANY.search(text):
+    elif any(m.start() not in exact for m in REQ_ANY.finditer(text)):
         rep.add("info", "lock-unpinned", path,
                 "litellm without an exact pin: check what resolved on 21 Oct 2026, 11:39 to 13:23 UTC")
 
@@ -339,7 +361,7 @@ def tar_member_hits(names, where, rep):
                 rep.add("hit", "image-digest", where, f"blob {digest[:12]}: {what}")
 
 
-def scan_tar(fileobj_or_path, where, rep, depth=0):
+def scan_tar(fileobj_or_path, where, rep, depth=0, size=None):
     try:
         if isinstance(fileobj_or_path, str):
             tf = tarfile.open(fileobj_or_path, mode="r:*")
@@ -348,34 +370,47 @@ def scan_tar(fileobj_or_path, where, rep, depth=0):
     except (tarfile.TarError, OSError, EOFError) as e:
         rep.add("incomplete", "unreadable-archive", where, f"looks like an archive but could not be read: {e}")
         return
-    with tf:
-        members = tf.getmembers()
-        tar_member_hits([m.name for m in members], where, rep)
-        for m in members:
-            if m.name.endswith(("index.json", "manifest.json")) and m.isfile() and m.size < 1 << 20:
-                body = tf.extractfile(m).read().decode("utf-8", errors="replace")
-                for digest, what in IMAGE_DIGESTS.items():
-                    if digest in body:
-                        rep.add("hit", "image-digest", f"{where}!{m.name}", what)
-            if depth >= 2 or not m.isfile() or m.size < 20:
-                continue
-            f = tf.extractfile(m)
-            head = f.read(512)
-            f.seek(0)
-            if head[:2] == b"\x1f\x8b" or head[257:262] == b"ustar":
-                scan_tar(f, f"{where}!{m.name}", rep, depth + 1)
-            elif head[:4] == b"\x28\xb5\x2f\xfd":
-                rep.add("incomplete", "zstd-layer", f"{where}!{m.name}",
-                        "zstd-compressed layer: this Python cannot read it")
-            elif head[:4] == b"PK\x03\x04":
-                scan_zip(io.BytesIO(f.read()), f"{where}!{m.name}", rep)
+    try:
+        with tf:
+            scan_tar_members(tf, where, rep, depth, size)
+    except (tarfile.TarError, OSError, EOFError, zlib.error) as e:
+        rep.add("incomplete", "unreadable-archive", where, f"archive ended or broke while reading: {e}")
+
+
+def scan_tar_members(tf, where, rep, depth, size=None):
+    members = tf.getmembers()
+    if size is not None and members:
+        end = max(m.offset_data + m.size for m in members)
+        if end > size or size % 512:
+            rep.add("incomplete", "unreadable-archive", where,
+                    f"tar looks truncated ({size} bytes on disk, members need {end})")
+    tar_member_hits([m.name for m in members], where, rep)
+    for m in members:
+        if m.name.endswith(("index.json", "manifest.json")) and m.isfile() and m.size < 1 << 20:
+            body = tf.extractfile(m).read().decode("utf-8", errors="replace")
+            for digest, what in IMAGE_DIGESTS.items():
+                if digest in body:
+                    rep.add("hit", "image-digest", f"{where}!{m.name}", what)
+        if depth >= 2 or not m.isfile() or m.size < 20:
+            continue
+        f = tf.extractfile(m)
+        head = f.read(512)
+        f.seek(0)
+        if head[:2] == b"\x1f\x8b" or head[257:262] == b"ustar":
+            scan_tar(f, f"{where}!{m.name}", rep, depth + 1)
+        elif head[:4] == b"\x28\xb5\x2f\xfd":
+            rep.add("incomplete", "zstd-layer", f"{where}!{m.name}",
+                    "zstd-compressed layer: this Python cannot read it")
+        elif head[:4] == b"PK\x03\x04":
+            scan_zip(io.BytesIO(f.read()), f"{where}!{m.name}", rep)
 
 
 def scan_zip(fileobj_or_path, where, rep):
     try:
         with zipfile.ZipFile(fileobj_or_path) as z:
             names = z.namelist()
-    except (zipfile.BadZipFile, OSError):
+    except (zipfile.BadZipFile, OSError) as e:
+        rep.add("incomplete", "unreadable-archive", where, f"looks like a zip but could not be read: {e}")
         return
     bad = [n for n in names if n.startswith((f"{DIST_INFO}/", f"{DATA_DIR}/"))
            and ("/purelib/" in n or n.endswith("/METADATA"))]
@@ -423,7 +458,8 @@ def scan_file(path, rep, max_size):
     if is_zip:
         scan_zip(path, path, rep)
     elif is_tar:
-        scan_tar(path, path, rep)
+        # the truncation check needs the size of an uncompressed tar on disk
+        scan_tar(path, path, rep, size=None if head[:2] == b"\x1f\x8b" else size)
 
 
 def scan_path(root, rep, max_size, explicit=True):
